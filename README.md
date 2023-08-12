@@ -1,6 +1,6 @@
 # mini_trade_flutter
 
-A new Flutter project.
+iOS 앱으로 출시한 미니체결을 플러터로 다시 만들어보는 프로젝트
 
 ## Getting Started
 
