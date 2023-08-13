@@ -8,28 +8,21 @@ class CoinListView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder(
-      future: Get.find<CoinListViewModel>().fetchCoins(),
-      builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return progressView;
-        } else if (snapshot.hasError) {
-          return errorView(snapshot);
-        } else {
-          return GetBuilder<CoinListViewModel>(
-            builder: (controller) {
-              return ListView.builder(
-                itemCount: controller.coinlist.length,
-                itemBuilder: (context, index) {
-                  final ticker = controller.coinlist[index];
-                  return listTileView(ticker);
-                },
-              );
-            },
-          );
-        }
-      },
-    );
+    final vm = Get.find<CoinListViewModel>();
+
+    return Obx(() {
+      if (vm.coinlist.isEmpty) {
+        return progressView;
+      } else {
+        return ListView.builder(
+          itemCount: vm.coinlist.length,
+          itemBuilder: (context, index) {
+            final ticker = vm.coinlist[index];
+            return listTileView(ticker);
+          },
+        );
+      }
+    });
   }
 
   ListTile listTileView(TickerViewModel ticker) {
@@ -40,8 +33,19 @@ class CoinListView extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.end,
         children: [
-          Text(ticker.changeRate, style: TextStyle(color: ticker.color)),
-          Text(ticker.price),
+          Text(
+            ticker.changeRate,
+            style: TextStyle(
+              color: ticker.color,
+              fontSize: 14.0,
+            ),
+          ),
+          Text(
+            ticker.price,
+            style: const TextStyle(
+              fontSize: 14.0,
+            ),
+          ),
         ],
       ),
     );
@@ -50,7 +54,4 @@ class CoinListView extends StatelessWidget {
   Widget get progressView => const Center(
         child: CircularProgressIndicator(),
       );
-
-  Center errorView(AsyncSnapshot<void> snapshot) =>
-      Center(child: Text("Error: ${snapshot.error}"));
 }

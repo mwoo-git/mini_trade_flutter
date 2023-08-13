@@ -36,7 +36,3 @@ class TickerViewModel {
 
   Color get sell => Colors.blue;
 }
-
-class UserDefault {
-  static const colorKey = 'isBlue';
-}

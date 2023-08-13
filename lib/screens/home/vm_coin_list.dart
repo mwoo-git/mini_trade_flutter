@@ -27,7 +27,7 @@ class CoinListViewModel extends GetxController {
 
   @override
   void onInit() {
-    // fetchCoins();
+    fetchCoins();
     super.onInit();
   }
 
@@ -60,7 +60,6 @@ class CoinListViewModel extends GetxController {
     final viewModels = convertToViewModels(sortedArray);
 
     coinlist.assignAll(viewModels);
-    update();
   }
 
   List<BinanceTicker> sortCoins() {

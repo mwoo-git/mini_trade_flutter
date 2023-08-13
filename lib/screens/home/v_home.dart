@@ -19,7 +19,7 @@ class HomeView extends StatelessWidget {
             print('햄버거 버튼 탭!');
           },
         ),
-        title: Text('바이낸스 선물'),
+        title: const Text('바이낸스 선물'),
         actions: [
           IconButton(
             icon: const Icon(Icons.search),
@@ -34,5 +34,5 @@ class HomeView extends StatelessWidget {
         ],
       );
 
-  Widget get body => CoinListView();
+  Widget get body => const CoinListView();
 }

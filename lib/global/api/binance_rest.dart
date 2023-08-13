@@ -45,7 +45,7 @@ class BinanceRestService {
     final symbols = coins.map((coin) => coin.symbol).toList();
     final tickers = <BinanceTicker>[];
 
-    final chunkSize = 10;
+    const chunkSize = 10;
     final numChunks = (symbols.length + chunkSize - 1) ~/ chunkSize;
 
     await Future.wait(
