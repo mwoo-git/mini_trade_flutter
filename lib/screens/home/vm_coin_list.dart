@@ -11,11 +11,11 @@ enum SortCoins {
 
 class CoinListViewModel extends GetxController {
   RxList<TickerViewModel> coinlist = <TickerViewModel>[].obs;
-  RxList<TickerViewModel> filterd = <TickerViewModel>[].obs;
 
   List<BinanceTicker>? _tickers;
 
   List<BinanceTicker>? get tickers => _tickers;
+
   set tickers(List<BinanceTicker>? value) {
     _tickers = value;
     updateCoinlist();

@@ -1,38 +1,41 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:mini_trade_flutter/screens/home/search_delegate.dart';
 import 'package:mini_trade_flutter/screens/home/vm_coin_list.dart';
 import 'package:mini_trade_flutter/screens/home/w_coin_list.dart';
 import 'package:mini_trade_flutter/screens/home/w_refresh_button.dart';
 
 class HomeView extends StatelessWidget {
   const HomeView({super.key});
+  get vm => Get.find<CoinListViewModel>();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: appBar,
+      appBar: appBar(context),
       body: const CoinListView(),
     );
   }
 
-  PreferredSizeWidget get appBar => AppBar(
-        leading: sortPopupMenuButton,
-        title: const Text('바이낸스 선물'),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.search),
-            onPressed: () {
-              print('검색 탭!');
-            },
-          ),
-          const RefreshButton(),
-        ],
-      );
+  AppBar appBar(BuildContext context) {
+    return AppBar(
+      leading: sortPopupMenuButton,
+      title: const Text('바이낸스 선물'),
+      actions: [
+        IconButton(
+          icon: const Icon(Icons.search),
+          onPressed: () {
+            showSearch(context: context, delegate: CoinSearchDelegate(vm));
+          },
+        ),
+        const RefreshButton(),
+      ],
+    );
+  }
 
   Widget get sortPopupMenuButton => PopupMenuButton<SortCoins>(
         icon: const Icon(Icons.menu),
         onSelected: (sort) {
-          final vm = Get.find<CoinListViewModel>();
           vm.updateSortOption(sort);
         },
         position: PopupMenuPosition.under,

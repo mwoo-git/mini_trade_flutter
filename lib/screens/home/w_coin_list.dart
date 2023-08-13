@@ -5,11 +5,10 @@ import 'package:mini_trade_flutter/screens/home/vm_ticker.dart';
 
 class CoinListView extends StatelessWidget {
   const CoinListView({super.key});
+  get vm => Get.find<CoinListViewModel>();
 
   @override
   Widget build(BuildContext context) {
-    final vm = Get.find<CoinListViewModel>();
-
     return Obx(() {
       if (vm.coinlist.isEmpty) {
         return progressView;
