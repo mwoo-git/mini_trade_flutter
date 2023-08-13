@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mini_trade_flutter/screens/home/vm_coin_list.dart';
 import 'package:mini_trade_flutter/screens/home/w_coin_list.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:mini_trade_flutter/screens/home/w_refresh_button.dart';
 
 class HomeView extends StatelessWidget {
   const HomeView({super.key});
@@ -25,10 +25,7 @@ class HomeView extends StatelessWidget {
               print('검색 탭!');
             },
           ),
-          IconButton(
-            icon: const Icon(Icons.refresh),
-            onPressed: () {},
-          )
+          const RefreshButton(),
         ],
       );
 
