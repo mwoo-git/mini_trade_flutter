@@ -22,16 +22,18 @@ class HomeView extends StatelessWidget {
       leading: sortPopupMenuButton,
       title: const Text('바이낸스 선물'),
       actions: [
-        IconButton(
-          icon: const Icon(Icons.search),
-          onPressed: () {
-            showSearch(context: context, delegate: CoinSearchDelegate(vm));
-          },
-        ),
+        showSearchButton(context),
         const RefreshButton(),
       ],
     );
   }
+
+  IconButton showSearchButton(BuildContext context) => IconButton(
+        icon: const Icon(Icons.search),
+        onPressed: () {
+          showSearch(context: context, delegate: CoinSearchDelegate(vm));
+        },
+      );
 
   Widget get sortPopupMenuButton => PopupMenuButton<SortCoins>(
         icon: const Icon(Icons.menu),
