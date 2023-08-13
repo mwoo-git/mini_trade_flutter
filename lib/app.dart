@@ -9,7 +9,19 @@ class App extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
-      theme: ThemeData(useMaterial3: true),
+      theme: ThemeData(
+        useMaterial3: true,
+        // brightness: Brightness.light,
+        colorScheme: const ColorScheme.light(
+          primary: Colors.white,
+          secondary: Colors.black,
+        ),
+        bottomNavigationBarTheme: const BottomNavigationBarThemeData(
+          showSelectedLabels: false,
+          showUnselectedLabels: false,
+          selectedItemColor: Colors.black,
+        ),
+      ),
       home: const MainTabView(),
     );
   }

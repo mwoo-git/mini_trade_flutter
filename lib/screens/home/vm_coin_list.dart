@@ -83,6 +83,11 @@ class CoinListViewModel extends GetxController {
     return viewModels;
   }
 
+  void updateSortOption(SortCoins option) {
+    sort = option;
+    updateCoinlist();
+  }
+
   @override
   void dispose() {
     super.dispose();
