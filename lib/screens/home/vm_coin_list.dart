@@ -10,8 +10,8 @@ enum SortCoins {
 }
 
 class CoinListViewModel extends GetxController {
-  var coinlist = <TickerViewModel>[].obs;
-  var filterd = <TickerViewModel>[].obs;
+  RxList<TickerViewModel> coinlist = <TickerViewModel>[].obs;
+  RxList<TickerViewModel> filterd = <TickerViewModel>[].obs;
 
   List<BinanceTicker>? _tickers;
 
@@ -27,12 +27,8 @@ class CoinListViewModel extends GetxController {
 
   @override
   void onInit() {
-    fetchCoins();
+    // fetchCoins();
     super.onInit();
-  }
-
-  Future<void> loadCoins() async {
-    update();
   }
 
   Future<void> fetchCoins() async {
@@ -64,6 +60,7 @@ class CoinListViewModel extends GetxController {
     final viewModels = convertToViewModels(sortedArray);
 
     coinlist.assignAll(viewModels);
+    update();
   }
 
   List<BinanceTicker> sortCoins() {

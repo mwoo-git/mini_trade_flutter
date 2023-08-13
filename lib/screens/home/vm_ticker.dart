@@ -30,6 +30,8 @@ class TickerViewModel {
 
   String get symbol => ticker.market;
 
+  Color get color => ticker.changeRate > 0 ? buy : sell;
+
   Color get buy => Colors.red;
 
   Color get sell => Colors.blue;

@@ -10,18 +10,9 @@ class MainTabView extends StatefulWidget {
 }
 
 class _MainTabViewState extends State<MainTabView> {
-  final PageStorageBucket _bucket = PageStorageBucket();
   late final List<Widget> _tabs = [
-    PageStorage(
-      bucket: _bucket,
-      child: const HomeView(),
-      key: const PageStorageKey<String>('Home'),
-    ),
-    PageStorage(
-      bucket: _bucket,
-      child: const TradeView(),
-      key: const PageStorageKey<String>('Trade'),
-    ),
+    const HomeView(),
+    const TradeView(),
   ];
 
   int _currentIndex = 0;
@@ -29,7 +20,10 @@ class _MainTabViewState extends State<MainTabView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: _tabs[_currentIndex],
+      body: IndexedStack(
+        index: _currentIndex,
+        children: _tabs,
+      ),
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _currentIndex,
         onTap: (index) {
