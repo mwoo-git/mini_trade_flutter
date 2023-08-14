@@ -37,7 +37,7 @@ class _MainTabViewState extends State<MainTabView> {
             label: 'Home',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.person),
+            icon: Icon(Icons.bar_chart),
             label: 'Trade',
           ),
         ],
