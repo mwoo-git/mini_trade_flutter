@@ -1,0 +1,35 @@
+import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+import 'package:mini_trade_flutter/global/models/m_binance.dart';
+
+class TradeTileViewModel {
+  final BinanceTradeTicker ticker;
+
+  TradeTileViewModel({required this.ticker});
+
+  String get time {
+    final utcTimestamp = ticker.tradeTime ~/ 1000;
+    final date = DateTime.fromMillisecondsSinceEpoch(utcTimestamp * 1000);
+
+    final dateFormatter = DateFormat('HH:mm:ss');
+    return dateFormatter.format(date);
+  }
+
+  String get price => ticker.price;
+
+  String get quantity => ticker.quantity;
+
+  String get amount {
+    final double priceValue = double.parse(ticker.price);
+    final double quantityValue = double.parse(ticker.quantity);
+    final double amount = priceValue * quantityValue;
+    final int integerAmount = amount.toInt();
+    return integerAmount.toString();
+  }
+
+  Color get color => ticker.trade ? buy : sell;
+
+  Color get buy => Colors.red;
+
+  Color get sell => Colors.blue;
+}
