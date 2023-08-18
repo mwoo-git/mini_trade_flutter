@@ -8,26 +8,26 @@ class TradeTileViewModel {
   TradeTileViewModel({required this.ticker});
 
   String get time {
-    final utcTimestamp = ticker.tradeTime ~/ 1000;
+    final utcTimestamp = ticker.tradeTime! ~/ 1000;
     final date = DateTime.fromMillisecondsSinceEpoch(utcTimestamp * 1000);
 
     final dateFormatter = DateFormat('HH:mm:ss');
     return dateFormatter.format(date);
   }
 
-  String get price => ticker.price;
+  String get price => ticker.price ?? '0';
 
-  String get quantity => ticker.quantity;
+  String get quantity => ticker.quantity ?? '0';
 
   String get amount {
-    final double priceValue = double.parse(ticker.price);
-    final double quantityValue = double.parse(ticker.quantity);
+    final double priceValue = double.parse(ticker.price ?? '0');
+    final double quantityValue = double.parse(ticker.quantity ?? '0');
     final double amount = priceValue * quantityValue;
     final int integerAmount = amount.toInt();
     return integerAmount.toString();
   }
 
-  Color get color => ticker.trade ? buy : sell;
+  Color get color => ticker.trade ?? false ? buy : sell;
 
   Color get buy => Colors.red;
 

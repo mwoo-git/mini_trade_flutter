@@ -1,17 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:mini_trade_flutter/screens/common/w_progress.dart';
 import 'package:mini_trade_flutter/screens/home/vm_coin_list.dart';
 import 'package:mini_trade_flutter/screens/home/vm_ticker.dart';
 
 class CoinListView extends StatelessWidget {
   const CoinListView({super.key});
-  get vm => Get.find<CoinListViewModel>();
 
   @override
   Widget build(BuildContext context) {
+    final vm = Get.find<CoinListViewModel>();
     return Obx(() {
       if (vm.coinlist.isEmpty) {
-        return progressView;
+        return const ProgressView();
       } else {
         return ListView.builder(
           itemCount: vm.coinlist.length,
@@ -49,8 +50,4 @@ class CoinListView extends StatelessWidget {
       ),
     );
   }
-
-  Widget get progressView => const Center(
-        child: CircularProgressIndicator(),
-      );
 }

@@ -1,22 +1,29 @@
 import 'dart:async';
 import 'dart:convert';
+import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 import 'package:mini_trade_flutter/global/models/m_binance.dart';
+import 'package:mini_trade_flutter/screens/trade/vm_trade_list.dart';
 import 'package:web_socket_channel/io.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
 
 class BinanceWebSocketService extends GetxService {
+  final url = Uri.parse('wss://fstream.binance.com/ws');
   WebSocketChannel? _webSocketChannel;
-  StreamSubscription? _subscription;
 
   final RxBool isConnected = false.obs;
-  final Rx<BinanceTradeTicker?> ticker = Rx<BinanceTradeTicker?>(null);
+  final Rx<dynamic> data = Rx<dynamic>(null);
+  // final Rx<BinanceTradeTicker?> ticker = Rx<BinanceTradeTicker?>(null);
   final Rx<String?> currentCoin = Rx<String?>(null);
-  int userAmount = 10000; //임시
+  int userAmount = 1000; //임시
 
-  void connect() {
-    final url = Uri.parse('wss://fstream.binance.com/ws');
+  @override
+  void onInit() {
+    connect();
+    super.onInit();
+  }
 
+  void connect() async {
     try {
       _webSocketChannel = IOWebSocketChannel.connect(url);
 
@@ -24,16 +31,24 @@ class BinanceWebSocketService extends GetxService {
 
       send(currentCoin.value ?? 'BTCUSDT');
 
-      _subscription = _webSocketChannel!.stream.listen((message) {
-        onReceiveData(message);
-      });
+      _webSocketChannel?.stream.listen(
+        (message) {
+          data.value = json.encode(message);
+        },
+        onDone: () {
+          isConnected.value = false;
+        },
+        onError: (error) {
+          isConnected.value = false;
+        },
+      );
     } catch (e) {
       isConnected.value = false;
       print('DEBUG: BinanceWebSocketService.connect() failed: $e');
     }
   }
 
-  void send(String symbol) {
+  send(String symbol) async {
     if (currentCoin.value != null) {
       final unsubscribeStream = '${currentCoin.value?.toLowerCase()}@aggTrade';
       final unsubscribeMessage = '''
@@ -51,23 +66,7 @@ class BinanceWebSocketService extends GetxService {
     _webSocketChannel?.sink.add(message);
   }
 
-  void onReceiveData(dynamic message) {
-    if (message is String) {
-      final decoded = json.decode(message) as Map<String, dynamic>;
-      final ticker = BinanceTradeTicker.fromJson(decoded);
-
-      final amount = (double.tryParse(ticker.price) ?? 0) *
-          (double.tryParse(ticker.quantity) ?? 0);
-      final intAmount = amount.toInt();
-
-      if (intAmount > userAmount) {
-        this.ticker.value = ticker;
-      }
-    }
-  }
-
-  void close() {
-    _subscription?.cancel();
+  close() async {
     _webSocketChannel?.sink.close();
     isConnected.value = false;
   }

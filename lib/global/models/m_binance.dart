@@ -1,11 +1,11 @@
 class BinanceTradeTicker {
-  final double eventTime;
-  final double tradeTime;
-  final String symbol;
-  final String price;
-  final String quantity;
-  final bool trade;
-  final int tradeId;
+  final int? eventTime;
+  final int? tradeTime;
+  final String? symbol;
+  final String? price;
+  final String? quantity;
+  final bool? trade;
+  final int? tradeId;
 
   BinanceTradeTicker({
     required this.eventTime,
