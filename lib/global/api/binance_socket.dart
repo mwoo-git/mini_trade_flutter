@@ -14,7 +14,7 @@ class BinanceWebSocketService extends GetxService {
   static final RxBool isConnected = false.obs;
   static final Rx<dynamic> vm = Rx<dynamic>(null);
   static final Rx<String?> currentCoin = Rx<String?>(null);
-  static int userAmount = 1000; //임시
+  static int userAmount = 100000; //임시
 
   late Isolate _isolate;
   final _receivePort = ReceivePort();
@@ -84,7 +84,7 @@ class BinanceWebSocketService extends GetxService {
     final ticker = BinanceTradeTicker.fromJson(decoded);
     final amount = (double.tryParse(ticker.price ?? '0') ?? 0) *
         (double.tryParse(ticker.quantity ?? '0') ?? 0);
-    if (amount > 10000) {
+    if (amount > userAmount) {
       final vm = TradeTileViewModel(ticker: ticker);
       return vm;
     }

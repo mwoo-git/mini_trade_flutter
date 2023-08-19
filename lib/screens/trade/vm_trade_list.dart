@@ -20,6 +20,9 @@ class TradeListViewModel extends GetxController {
         if (vm != null) {
           tradelist.insert(0, vm);
         }
+        if (tradelist.length > 15) {
+          tradelist.removeLast();
+        }
       },
     );
   }

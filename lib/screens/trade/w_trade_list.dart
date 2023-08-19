@@ -15,6 +15,7 @@ class TradeListView extends StatelessWidget {
         return const ProgressView();
       } else {
         return ListView.builder(
+          reverse: false,
           itemCount: vm.tradelist.length,
           itemBuilder: (context, index) {
             final ticker = vm.tradelist[index];
