@@ -1,39 +1,52 @@
 import 'dart:async';
 import 'dart:convert';
-import 'package:flutter/foundation.dart';
+import 'dart:isolate';
 import 'package:get/get.dart';
 import 'package:mini_trade_flutter/global/models/m_binance.dart';
-import 'package:mini_trade_flutter/screens/trade/vm_trade_list.dart';
+import 'package:mini_trade_flutter/screens/trade/vm_trade_tile.dart';
 import 'package:web_socket_channel/io.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
 
 class BinanceWebSocketService extends GetxService {
-  final url = Uri.parse('wss://fstream.binance.com/ws');
-  WebSocketChannel? _webSocketChannel;
+  static final url = Uri.parse('wss://fstream.binance.com/ws');
+  static WebSocketChannel? _webSocketChannel;
 
-  final RxBool isConnected = false.obs;
-  final Rx<dynamic> data = Rx<dynamic>(null);
-  // final Rx<BinanceTradeTicker?> ticker = Rx<BinanceTradeTicker?>(null);
-  final Rx<String?> currentCoin = Rx<String?>(null);
-  int userAmount = 1000; //임시
+  static final RxBool isConnected = false.obs;
+  static final Rx<dynamic> vm = Rx<dynamic>(null);
+  static final Rx<String?> currentCoin = Rx<String?>(null);
+  static int userAmount = 1000; //임시
+
+  late Isolate _isolate;
+  final _receivePort = ReceivePort();
 
   @override
   void onInit() {
-    connect();
+    configureIsolate();
     super.onInit();
   }
 
-  void connect() async {
+  Future<void> configureIsolate() async {
+    _isolate = await Isolate.spawn(connect, _receivePort.sendPort);
+    _receivePort.listen((message) {
+      vm.value = message;
+    });
+  }
+
+  static void connect(SendPort sendPort) async {
     try {
       _webSocketChannel = IOWebSocketChannel.connect(url);
+      print('웹소켓 연결');
 
       isConnected.value = true;
 
       send(currentCoin.value ?? 'BTCUSDT');
 
       _webSocketChannel?.stream.listen(
-        (message) {
-          data.value = json.encode(message);
+        (message) async {
+          TradeTileViewModel? vm = await receive(message);
+          if (vm != null) {
+            sendPort.send(vm);
+          }
         },
         onDone: () {
           isConnected.value = false;
@@ -48,7 +61,7 @@ class BinanceWebSocketService extends GetxService {
     }
   }
 
-  send(String symbol) async {
+  static send(String symbol) async {
     if (currentCoin.value != null) {
       final unsubscribeStream = '${currentCoin.value?.toLowerCase()}@aggTrade';
       final unsubscribeMessage = '''
@@ -66,8 +79,28 @@ class BinanceWebSocketService extends GetxService {
     _webSocketChannel?.sink.add(message);
   }
 
+  static Future<TradeTileViewModel?> receive(String data) async {
+    final decoded = json.decode(data) as Map<String, dynamic>;
+    final ticker = BinanceTradeTicker.fromJson(decoded);
+    final amount = (double.tryParse(ticker.price ?? '0') ?? 0) *
+        (double.tryParse(ticker.quantity ?? '0') ?? 0);
+    if (amount > 10000) {
+      final vm = TradeTileViewModel(ticker: ticker);
+      return vm;
+    }
+    return null;
+  }
+
   close() async {
     _webSocketChannel?.sink.close();
     isConnected.value = false;
+  }
+
+  @override
+  void onClose() {
+    close();
+    _receivePort.close();
+    _isolate.kill(priority: Isolate.immediate);
+    super.onClose();
   }
 }

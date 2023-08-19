@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:mini_trade_flutter/app.dart';
 import 'package:mini_trade_flutter/screens/trade/w_trade_list.dart';
 
 class TradeView extends StatelessWidget {

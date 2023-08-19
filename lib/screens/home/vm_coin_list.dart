@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 import 'package:mini_trade_flutter/global/api/binance_rest.dart';
 import 'package:mini_trade_flutter/global/models/m_binance.dart';
@@ -21,7 +22,7 @@ class CoinListViewModel extends GetxController {
     updateCoinlist();
   }
 
-  List<BinanceCoin>? coins;
+  static List<BinanceCoin>? coins;
 
   var sort = SortCoins.volume;
 
@@ -33,8 +34,8 @@ class CoinListViewModel extends GetxController {
 
   Future<void> fetchCoins() async {
     try {
-      final coins = await BinanceRestService.fetchFuturesCoins();
-      this.coins = coins;
+      var coin = await BinanceRestService.fetchFuturesCoins();
+      coins = coin;
       fetchTickers();
     } catch (error) {
       // Handle error
@@ -45,14 +46,23 @@ class CoinListViewModel extends GetxController {
   Future<void> fetchTickers() async {
     try {
       if (coins != null) {
-        final tickers =
-            await BinanceRestService.fetchTickers(coins!, ExchangeType.futures);
+        final tickers = await compute(fetchTickersIsolate, coins);
+        // final tickers =
+        //     await BinanceRestService.fetchTickers(coins!, ExchangeType.futures);
         this.tickers = tickers;
+      } else {
+        print('coins null');
       }
     } catch (error) {
       // Handle error
-      print("DEBUG: fetchTickers() Failed.");
+      print("DEBUG: CoinListViewModel.fetchTickers() Failed. $error");
     }
+  }
+
+  static Future<List<BinanceTicker>> fetchTickersIsolate(dynamic coins) async {
+    final tickers =
+        BinanceRestService.fetchTickers(coins, ExchangeType.futures);
+    return tickers;
   }
 
   void updateCoinlist() {

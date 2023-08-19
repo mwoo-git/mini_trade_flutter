@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:mini_trade_flutter/global/api/binance_socket.dart';
 import 'package:mini_trade_flutter/screens/common/w_progress.dart';
 import 'package:mini_trade_flutter/screens/trade/vm_trade_list.dart';
 import 'package:mini_trade_flutter/screens/trade/vm_trade_tile.dart';
@@ -31,9 +30,16 @@ class TradeListView extends StatelessWidget {
       title: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text(ticker.time),
-          Text(ticker.price),
-          Text(ticker.quantity),
+          Row(
+            children: [
+              SizedBox(width: 100, child: Text(ticker.time)),
+              Text(ticker.price),
+            ],
+          ),
+          Text(
+            ticker.amount,
+            style: TextStyle(color: ticker.color),
+          ),
         ],
       ),
     );
