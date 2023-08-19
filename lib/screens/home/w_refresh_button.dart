@@ -28,7 +28,7 @@ class _RefreshButtonState extends State<RefreshButton> {
 
   void startCountdown() {
     setState(() {
-      vm.fetchCoins();
+      vm.fetchTickers();
       isCountingDown = true;
       isRefreshing = true;
     });

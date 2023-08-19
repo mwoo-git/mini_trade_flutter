@@ -44,24 +44,20 @@ class CoinListViewModel extends GetxController {
   }
 
   Future<void> fetchTickers() async {
-    try {
-      if (coins != null) {
+    if (coins != null) {
+      try {
         final tickers = await compute(fetchTickersIsolate, coins);
-        // final tickers =
-        //     await BinanceRestService.fetchTickers(coins!, ExchangeType.futures);
         this.tickers = tickers;
-      } else {
-        print('coins null');
+      } catch (e) {
+        print("DEBUG: CoinListViewModel.fetchTickers() Failed. $e");
       }
-    } catch (error) {
-      // Handle error
-      print("DEBUG: CoinListViewModel.fetchTickers() Failed. $error");
+    } else {
+      fetchCoins();
     }
   }
 
   static Future<List<BinanceTicker>> fetchTickersIsolate(dynamic coins) async {
-    final tickers =
-        BinanceRestService.fetchTickers(coins, ExchangeType.futures);
+    final tickers = BinanceRestService.fetchTickers(coins);
     return tickers;
   }
 

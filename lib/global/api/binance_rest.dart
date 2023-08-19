@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 import 'package:mini_trade_flutter/global/models/m_binance.dart';
 
@@ -40,26 +41,21 @@ class BinanceRestService {
     }
   }
 
+  // 190여개의 코인캔들 정보를 10개씩 병렬로 가져오는 함수
   static Future<List<BinanceTicker>> fetchTickers(
-      List<BinanceCoin> coins, ExchangeType type) async {
-    final symbols = coins.map((coin) => coin.symbol).toList();
+      List<BinanceCoin> coins) async {
+    const chunkSize = 10;
+    final numChunks = (coins.length + chunkSize - 1) ~/ chunkSize;
+
     final tickers = <BinanceTicker>[];
 
-    const chunkSize = 10;
-    final numChunks = (symbols.length + chunkSize - 1) ~/ chunkSize;
-
     await Future.wait(
-      List<Future<List<BinanceTicker>>>.generate(numChunks, (chunkIndex) async {
+      List.generate(numChunks, (chunkIndex) {
         final startIndex = chunkIndex * chunkSize;
-        final endIndex = (startIndex + chunkSize).clamp(0, symbols.length);
-        final symbolChunk = symbols.sublist(startIndex, endIndex);
+        final endIndex = (startIndex + chunkSize).clamp(0, coins.length);
+        final coinChunk = coins.sublist(startIndex, endIndex);
 
-        switch (type) {
-          case ExchangeType.spot:
-            return fetchSpotTickersInParallel(symbolChunk);
-          case ExchangeType.futures:
-            return fetchFuturesTickersInParallel(symbolChunk);
-        }
+        return compute(fetchTickersInCompute, coinChunk);
       }),
     ).then((chunkResults) {
       for (final chunkResult in chunkResults) {
@@ -70,52 +66,37 @@ class BinanceRestService {
     return tickers;
   }
 
-  static Future<List<BinanceTicker>> fetchSpotTickersInParallel(
-      List<String> symbols) async {
+  static Future<List<BinanceTicker>> fetchTickersInCompute(
+      List<BinanceCoin> coins) async {
+    print('compute 생성');
     final tickers = <BinanceTicker>[];
-
-    await Future.wait(symbols.map((symbol) async {
-      final urlString =
-          "https://api.binance.com/api/v3/klines?symbol=$symbol&interval=1d&limit=1";
-      final response = await http.get(Uri.parse(urlString));
-
-      if (response.statusCode == 200) {
-        final klines = json.decode(response.body) as List<dynamic>;
-        if (klines.isNotEmpty) {
-          final klineData = BinanceKline.fromJson(klines.first);
-          final ticker = BinanceTicker(market: symbol, kline: klineData);
-          tickers.add(ticker);
-        }
-      } else {
-        print(
-            "Error fetching ticker for symbol $symbol: ${response.reasonPhrase}");
-      }
-    }));
+    for (final coin in coins) {
+      List<BinanceTicker> coinTicker = await fetchFuturesTickers(coin.symbol);
+      tickers.addAll(coinTicker);
+      print(coinTicker);
+    }
 
     return tickers;
   }
 
-  static Future<List<BinanceTicker>> fetchFuturesTickersInParallel(
-      List<String> symbols) async {
+  static Future<List<BinanceTicker>> fetchFuturesTickers(String symbol) async {
     final tickers = <BinanceTicker>[];
 
-    await Future.wait(symbols.map((symbol) async {
-      final urlString =
-          "https://fapi.binance.com/fapi/v1/klines?symbol=$symbol&interval=1d&limit=1";
-      final response = await http.get(Uri.parse(urlString));
+    final urlString =
+        "https://fapi.binance.com/fapi/v1/klines?symbol=$symbol&interval=1d&limit=1";
+    final response = await http.get(Uri.parse(urlString));
 
-      if (response.statusCode == 200) {
-        final klines = json.decode(response.body) as List<dynamic>;
-        if (klines.isNotEmpty) {
-          final klineData = BinanceKline.fromJson(klines.first);
-          final ticker = BinanceTicker(market: symbol, kline: klineData);
-          tickers.add(ticker);
-        }
-      } else {
-        print(
-            "Error fetching ticker for symbol $symbol: ${response.reasonPhrase}");
+    if (response.statusCode == 200) {
+      final klines = json.decode(response.body) as List<dynamic>;
+      if (klines.isNotEmpty) {
+        final klineData = BinanceKline.fromJson(klines.first);
+        final ticker = BinanceTicker(market: symbol, kline: klineData);
+        tickers.add(ticker);
       }
-    }));
+    } else {
+      print(
+          "Error fetching ticker for symbol $symbol: ${response.reasonPhrase}");
+    }
 
     return tickers;
   }
