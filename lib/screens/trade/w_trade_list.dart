@@ -21,8 +21,7 @@ class TradeListView extends StatelessWidget {
             if (index == 0) {
               return listHeader;
             } else {
-              // 나머지 경우 기존의 listTileView 위젯 반환
-              final ticker = vm.tradelist[index - 1]; // 추가한 Row 위젯 때문에 인덱스를 -1
+              final ticker = vm.tradelist[index - 1];
               return listTileView(ticker);
             }
           },
@@ -32,7 +31,7 @@ class TradeListView extends StatelessWidget {
   }
 
   Widget get listHeader => const Padding(
-        padding: EdgeInsets.only(left: 18, right: 20),
+        padding: EdgeInsets.only(left: 18, right: 21),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
