@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:mini_trade_flutter/global/api/binance_socket.dart';
 import 'trade/v_trade.dart';
 import 'home/v_home.dart';
 
@@ -16,6 +18,19 @@ class _MainTabViewState extends State<MainTabView> {
   ];
 
   int _currentIndex = 0;
+
+  @override
+  void initState() {
+    obserber();
+    super.initState();
+  }
+
+  void obserber() {
+    ever(
+      BinanceWebSocketService.switchTabIndex,
+      (i) => {setState(() => _currentIndex = 1)},
+    );
+  }
 
   @override
   Widget build(BuildContext context) {

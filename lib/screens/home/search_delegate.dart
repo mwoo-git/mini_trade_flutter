@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:mini_trade_flutter/global/api/binance_socket.dart';
 import 'package:mini_trade_flutter/screens/home/vm_coin_list.dart';
+import 'package:mini_trade_flutter/screens/home/w_coin_list.dart';
 
 class CoinSearchDelegate extends SearchDelegate {
   final CoinListViewModel vm;
@@ -56,6 +59,7 @@ class CoinSearchDelegate extends SearchDelegate {
       itemBuilder: (context, index) {
         final ticker = list[index];
         return ListTile(
+          onTap: () => listTileTabed(context, ticker.market),
           title: Text(ticker.symbol),
           trailing: Text(
             ticker.changeRate,
@@ -65,5 +69,11 @@ class CoinSearchDelegate extends SearchDelegate {
         );
       },
     );
+  }
+
+  listTileTabed(BuildContext context, String market) {
+    BinanceWebSocketService.currentCoin.value = market;
+    BinanceWebSocketService.switchTabIndex.toggle();
+    close(context, null);
   }
 }

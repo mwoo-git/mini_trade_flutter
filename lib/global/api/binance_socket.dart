@@ -14,6 +14,7 @@ class BinanceWebSocketService extends GetxService {
   static final RxBool isConnected = false.obs;
   static final Rx<dynamic> vm = Rx<dynamic>(null);
   static final Rx<String?> currentCoin = Rx<String?>(null);
+  static final RxBool switchTabIndex = false.obs;
   static int userAmount = 100000; //임시
 
   late Isolate _isolate;
