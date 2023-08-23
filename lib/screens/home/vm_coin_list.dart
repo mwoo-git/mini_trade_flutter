@@ -34,12 +34,10 @@ class CoinListViewModel extends GetxController {
 
   Future<void> fetchCoins() async {
     try {
-      var coin = await BinanceRestService.fetchFuturesCoins();
-      coins = coin;
+      coins = await BinanceRestService.fetchFuturesCoins();
       fetchTickers();
     } catch (error) {
-      // Handle error
-      print("DEBUG: fetchCoins() Failed.");
+      print("DEBUG: fetchCoins() Failed. $error");
     }
   }
 
