@@ -7,6 +7,13 @@ import 'package:mini_trade_flutter/screens/trade/vm_trade_tile.dart';
 import 'package:web_socket_channel/io.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
 
+class IsolateParameters {
+  final SendPort sendPort;
+  final String currentCoin;
+
+  IsolateParameters(this.sendPort, this.currentCoin);
+}
+
 class BinanceWebSocketService extends GetxService {
   static final url = Uri.parse('wss://fstream.binance.com/ws');
   static WebSocketChannel? _webSocketChannel;
@@ -15,33 +22,48 @@ class BinanceWebSocketService extends GetxService {
   static final Rx<dynamic> vm = Rx<dynamic>(null);
   static final Rx<String?> currentCoin = Rx<String?>(null);
   static final RxBool switchTabIndex = false.obs;
-  static int userAmount = 100000; //임시
+  static int userAmount = 10000; //임시
 
   late Isolate _isolate;
-  final _receivePort = ReceivePort();
+  late ReceivePort? receivePort;
 
   @override
   void onInit() {
     configureIsolate();
+    observer();
     super.onInit();
   }
 
+  void observer() {
+    ever(currentCoin, (coin) {
+      closeIsolate();
+      configureIsolate();
+    });
+  }
+
+  void closeIsolate() {
+    _isolate.kill(priority: Isolate.immediate);
+    isConnected.value = false;
+  }
+
   Future<void> configureIsolate() async {
-    _isolate = await Isolate.spawn(connect, _receivePort.sendPort);
-    _receivePort.listen((message) {
+    final receivePort = ReceivePort();
+    final params =
+        IsolateParameters(receivePort.sendPort, currentCoin.value ?? 'BTCUSDT');
+    _isolate = await Isolate.spawn(connect, params);
+    receivePort.listen((message) {
       vm.value = message;
     });
   }
 
-  static void connect(SendPort sendPort) async {
+  static void connect(IsolateParameters params) async {
+    final sendPort = params.sendPort;
+    final currentCoin = params.currentCoin;
+
     try {
       _webSocketChannel = IOWebSocketChannel.connect(url);
-      print('웹소켓 연결');
-
       isConnected.value = true;
-
-      send(currentCoin.value ?? 'BTCUSDT');
-
+      send(currentCoin);
       _webSocketChannel?.stream.listen(
         (message) async {
           TradeTileViewModel? vm = await receive(message);
@@ -63,16 +85,6 @@ class BinanceWebSocketService extends GetxService {
   }
 
   static send(String symbol) async {
-    if (currentCoin.value != null) {
-      final unsubscribeStream = '${currentCoin.value?.toLowerCase()}@aggTrade';
-      final unsubscribeMessage = '''
-          {"method": "UNSUBSCRIBE", "params": ["$unsubscribeStream"], "id": 1}
-          ''';
-      _webSocketChannel?.sink.add(unsubscribeMessage);
-    }
-
-    currentCoin.value = symbol;
-
     final stream = '${symbol.toLowerCase()}@aggTrade';
     final message = '''
     {"method": "SUBSCRIBE", "params": ["$stream"], "id": 1}
@@ -100,8 +112,7 @@ class BinanceWebSocketService extends GetxService {
   @override
   void onClose() {
     close();
-    _receivePort.close();
-    _isolate.kill(priority: Isolate.immediate);
+    closeIsolate();
     super.onClose();
   }
 }

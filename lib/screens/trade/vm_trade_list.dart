@@ -10,10 +10,10 @@ class TradeListViewModel extends GetxController {
   void onInit() {
     super.onInit();
 
-    receiveData();
+    observer();
   }
 
-  void receiveData() async {
+  void observer() async {
     ever(
       BinanceWebSocketService.vm,
       (vm) async {
@@ -23,6 +23,13 @@ class TradeListViewModel extends GetxController {
         if (tradelist.length > 15) {
           tradelist.removeLast();
         }
+      },
+    );
+
+    ever(
+      BinanceWebSocketService.currentCoin,
+      (coin) {
+        tradelist.value = [];
       },
     );
   }
