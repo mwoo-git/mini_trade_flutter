@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mini_trade_flutter/global/api/binance_socket.dart';
+import 'package:mini_trade_flutter/screens/settings/v_settings.dart';
 import 'package:mini_trade_flutter/screens/trade/w_trade_list.dart';
 
 class TradeView extends StatefulWidget {
@@ -43,7 +44,14 @@ class _TradeViewState extends State<TradeView> {
         title: Text('$curruntCoin 미니체결'),
         actions: [
           IconButton(
-            onPressed: () {},
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const SettingsView(),
+                ),
+              );
+            },
             icon: const Icon(Icons.menu),
           )
         ],

@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mini_trade_flutter/global/api/binance_socket.dart';
 import 'package:mini_trade_flutter/screens/home/vm_coin_list.dart';
-import 'package:mini_trade_flutter/screens/home/w_coin_list.dart';
 
 class CoinSearchDelegate extends SearchDelegate {
   final CoinListViewModel vm;
