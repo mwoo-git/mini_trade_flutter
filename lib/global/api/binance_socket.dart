@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:isolate';
 import 'package:get/get.dart';
+import 'package:mini_trade_flutter/global/common/data/prefs.dart';
 import 'package:mini_trade_flutter/global/models/m_binance.dart';
 import 'package:mini_trade_flutter/screens/trade/vm_trade_tile.dart';
 import 'package:web_socket_channel/io.dart';
@@ -10,8 +11,9 @@ import 'package:web_socket_channel/web_socket_channel.dart';
 class IsolateParameters {
   final SendPort sendPort;
   final String currentCoin;
+  final int amount;
 
-  IsolateParameters(this.sendPort, this.currentCoin);
+  IsolateParameters(this.sendPort, this.currentCoin, this.amount);
 }
 
 class BinanceWebSocketService extends GetxService {
@@ -20,9 +22,9 @@ class BinanceWebSocketService extends GetxService {
 
   static final RxBool isConnected = false.obs;
   static final Rx<dynamic> vm = Rx<dynamic>(null);
-  static final Rx<String?> currentCoin = Rx<String?>(null);
+  static final RxString currentCoin = RxString('BTCUSDT');
   static final RxBool switchTabIndex = false.obs;
-  static int userAmount = 10000; //임시
+  static final RxInt userAmount = RxInt(Prefs.amount.get());
 
   late Isolate _isolate;
   late ReceivePort? receivePort;
@@ -39,6 +41,15 @@ class BinanceWebSocketService extends GetxService {
       closeIsolate();
       configureIsolate();
     });
+
+    ever(
+      Prefs.didAmountChanged,
+      (value) {
+        userAmount.value = Prefs.amount.get();
+        closeIsolate();
+        configureIsolate();
+      },
+    );
   }
 
   void closeIsolate() {
@@ -48,8 +59,8 @@ class BinanceWebSocketService extends GetxService {
 
   Future<void> configureIsolate() async {
     final receivePort = ReceivePort();
-    final params =
-        IsolateParameters(receivePort.sendPort, currentCoin.value ?? 'BTCUSDT');
+    final params = IsolateParameters(
+        receivePort.sendPort, currentCoin.value, userAmount.value);
     _isolate = await Isolate.spawn(connect, params);
     receivePort.listen((message) {
       vm.value = message;
@@ -59,6 +70,7 @@ class BinanceWebSocketService extends GetxService {
   static void connect(IsolateParameters params) async {
     final sendPort = params.sendPort;
     final currentCoin = params.currentCoin;
+    final userAmount = params.amount;
 
     try {
       _webSocketChannel = IOWebSocketChannel.connect(url);
@@ -66,7 +78,7 @@ class BinanceWebSocketService extends GetxService {
       send(currentCoin);
       _webSocketChannel?.stream.listen(
         (message) async {
-          TradeTileViewModel? vm = await receive(message);
+          TradeTileViewModel? vm = await receive(message, userAmount);
           if (vm != null) {
             sendPort.send(vm);
           }
@@ -92,12 +104,14 @@ class BinanceWebSocketService extends GetxService {
     _webSocketChannel?.sink.add(message);
   }
 
-  static Future<TradeTileViewModel?> receive(String data) async {
+  static Future<TradeTileViewModel?> receive(
+      String data, int userAmount) async {
     final decoded = json.decode(data) as Map<String, dynamic>;
     final ticker = BinanceTradeTicker.fromJson(decoded);
     final amount = (double.tryParse(ticker.price ?? '0') ?? 0) *
         (double.tryParse(ticker.quantity ?? '0') ?? 0);
     if (amount > userAmount) {
+      print(userAmount);
       final vm = TradeTileViewModel(ticker: ticker);
       return vm;
     }

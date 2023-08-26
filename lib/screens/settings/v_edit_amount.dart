@@ -1,10 +1,10 @@
-import 'dart:ffi';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:mini_trade_flutter/global/api/binance_socket.dart';
 import 'package:mini_trade_flutter/global/common/data/prefs.dart';
+import 'package:velocity_x/velocity_x.dart';
 
 class EditAmountView extends StatefulWidget {
   const EditAmountView({super.key});
@@ -30,17 +30,7 @@ class _EditAmountViewState extends State<EditAmountView> {
         appBar: AppBar(
           title: const Text('순간거래대금 조회조건'),
           actions: [
-            TextButton(
-              onPressed: () {
-                isButtonEnabled ? doneButtonTaped() : null;
-              },
-              child: Text(
-                '완료',
-                style: TextStyle(
-                    color: isButtonEnabled ? Colors.blue : Colors.grey,
-                    fontSize: 20),
-              ),
-            ),
+            doneButton,
           ],
         ),
         body: Column(
@@ -58,6 +48,17 @@ class _EditAmountViewState extends State<EditAmountView> {
           ],
         ).paddingSymmetric(horizontal: 14));
   }
+
+  TextButton get doneButton => TextButton(
+        onPressed: () {
+          isButtonEnabled ? doneButtonTaped() : null;
+        },
+        child: Text(
+          '완료',
+          style: TextStyle(
+              color: isButtonEnabled ? Colors.blue : Colors.grey, fontSize: 20),
+        ),
+      );
 
   TextField get textField => TextField(
         controller: controller,
@@ -89,6 +90,8 @@ class _EditAmountViewState extends State<EditAmountView> {
   void doneButtonTaped() {
     if (inputValue != null) {
       Prefs.amount.set(inputValue!);
+      Prefs.didAmountChanged.toggle();
+      current = inputValue!;
       setState(() {
         isButtonEnabled = false;
       });

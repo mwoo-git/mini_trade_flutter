@@ -16,7 +16,7 @@ class TradeListView extends StatelessWidget {
       } else {
         return ListView.builder(
           reverse: false,
-          itemCount: vm.tradelist.length,
+          itemCount: vm.tradelist.length + 1,
           itemBuilder: (context, index) {
             if (index == 0) {
               return listHeader;

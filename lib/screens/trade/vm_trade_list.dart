@@ -1,5 +1,6 @@
 import 'package:get/get.dart';
 import 'package:mini_trade_flutter/global/api/binance_socket.dart';
+import 'package:mini_trade_flutter/global/common/data/prefs.dart';
 import 'package:mini_trade_flutter/screens/trade/vm_trade_tile.dart';
 
 class TradeListViewModel extends GetxController {
@@ -29,8 +30,19 @@ class TradeListViewModel extends GetxController {
     ever(
       BinanceWebSocketService.currentCoin,
       (coin) {
-        tradelist.value = [];
+        clearList();
       },
     );
+
+    ever(
+      Prefs.didAmountChanged,
+      (value) {
+        clearList();
+      },
+    );
+  }
+
+  void clearList() {
+    tradelist.value = [];
   }
 }
