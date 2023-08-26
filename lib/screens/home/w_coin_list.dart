@@ -41,7 +41,18 @@ class CoinListView extends StatelessWidget {
   ListTile listTileView(TickerViewModel ticker) {
     return ListTile(
       onTap: () => listTileTabed(ticker.market),
-      title: Text(ticker.market),
+      title: RichText(
+        text: TextSpan(
+          text: ticker.symbol,
+          style: const TextStyle(fontSize: 16.0, color: Colors.black),
+          children: const <TextSpan>[
+            TextSpan(
+              text: ' / USDT',
+              style: TextStyle(fontSize: 12.0, color: Colors.grey),
+            ),
+          ],
+        ),
+      ),
       subtitle: Text(ticker.volume),
       trailing: Column(
         mainAxisAlignment: MainAxisAlignment.center,

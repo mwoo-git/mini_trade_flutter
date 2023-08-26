@@ -28,7 +28,7 @@ class TickerViewModel {
     return "$formattedValue${suffixes[suffixIndex]}";
   }
 
-  String get symbol => ticker.market;
+  String get symbol => ticker.market.replaceFirst("USDT", "");
 
   Color get color => ticker.changeRate > 0 ? buy : sell;
 
