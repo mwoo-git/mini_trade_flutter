@@ -55,7 +55,7 @@ class BinanceRestService {
         final endIndex = (startIndex + chunkSize).clamp(0, coins.length);
         final coinChunk = coins.sublist(startIndex, endIndex);
 
-        return compute(fetchTickersInCompute, coinChunk);
+        return fetchTickerChunk(coinChunk);
       }),
     ).then((chunkResults) {
       for (final chunkResult in chunkResults) {
@@ -66,14 +66,12 @@ class BinanceRestService {
     return tickers;
   }
 
-  static Future<List<BinanceTicker>> fetchTickersInCompute(
+  static Future<List<BinanceTicker>> fetchTickerChunk(
       List<BinanceCoin> coins) async {
-    print('compute 생성');
     final tickers = <BinanceTicker>[];
     for (final coin in coins) {
       List<BinanceTicker> coinTicker = await fetchFuturesTickers(coin.symbol);
       tickers.addAll(coinTicker);
-      print(coinTicker);
     }
 
     return tickers;

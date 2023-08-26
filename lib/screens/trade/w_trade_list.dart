@@ -19,7 +19,7 @@ class TradeListView extends StatelessWidget {
           itemCount: vm.tradelist.length + 1,
           itemBuilder: (context, index) {
             if (index == 0) {
-              return listHeader;
+              return listHeader.paddingOnly(left: 18, right: 21);
             } else {
               final ticker = vm.tradelist[index - 1];
               return listTileView(ticker);
@@ -30,20 +30,17 @@ class TradeListView extends StatelessWidget {
     });
   }
 
-  Widget get listHeader => const Padding(
-        padding: EdgeInsets.only(left: 18, right: 21),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Row(
-              children: [
-                SizedBox(width: 100, child: Text('시간')),
-                Text('가격'),
-              ],
-            ),
-            Text('거래대금'),
-          ],
-        ),
+  Row get listHeader => const Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Row(
+            children: [
+              SizedBox(width: 100, child: Text('시간')),
+              Text('가격'),
+            ],
+          ),
+          Text('거래대금'),
+        ],
       );
 
   ListTile listTileView(TradeTileViewModel ticker) {

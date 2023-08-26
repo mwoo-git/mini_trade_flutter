@@ -16,15 +16,27 @@ class CoinListView extends StatelessWidget {
         return const ProgressView();
       } else {
         return ListView.builder(
-          itemCount: vm.coinlist.length,
+          itemCount: vm.coinlist.length + 1,
           itemBuilder: (context, index) {
-            final ticker = vm.coinlist[index];
-            return listTileView(ticker);
+            if (index == 0) {
+              return listHeader.paddingOnly(left: 17, right: 21);
+            } else {
+              final ticker = vm.coinlist[index - 1];
+              return listTileView(ticker);
+            }
           },
         );
       }
     });
   }
+
+  Row get listHeader => const Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text('심볼 / 거래량'),
+          Text('변동률 / 가격'),
+        ],
+      );
 
   ListTile listTileView(TickerViewModel ticker) {
     return ListTile(

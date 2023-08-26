@@ -111,7 +111,6 @@ class BinanceWebSocketService extends GetxService {
     final amount = (double.tryParse(ticker.price ?? '0') ?? 0) *
         (double.tryParse(ticker.quantity ?? '0') ?? 0);
     if (amount > userAmount) {
-      print(userAmount);
       final vm = TradeTileViewModel(ticker: ticker);
       return vm;
     }
