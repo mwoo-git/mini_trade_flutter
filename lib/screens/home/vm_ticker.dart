@@ -14,7 +14,7 @@ class TickerViewModel {
   String get changeRate => "${ticker.changeRate.toStringAsFixed(2)}%";
 
   String get volume {
-    final numberFormatter = NumberFormat.decimalPattern();
+    final numberFormatter = NumberFormat("###.##");
     final suffixes = ["", "K", "M", "B", "T"];
     var value = ticker.volume.toDouble();
     var suffixIndex = 0;
