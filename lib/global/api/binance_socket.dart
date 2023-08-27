@@ -20,7 +20,7 @@ class BinanceWebSocketService extends GetxService {
   static final url = Uri.parse('wss://fstream.binance.com/ws');
   static WebSocketChannel? _webSocketChannel;
 
-  static final RxBool isConnected = false.obs;
+  static final RxBool isConnected = RxBool(false);
   static final Rx<dynamic> vm = Rx<dynamic>(null);
   static final RxString currentCoin = RxString('BTCUSDT');
   static final RxBool switchTabIndex = false.obs;
@@ -63,7 +63,11 @@ class BinanceWebSocketService extends GetxService {
         receivePort.sendPort, currentCoin.value, userAmount.value);
     _isolate = await Isolate.spawn(connect, params);
     receivePort.listen((message) {
-      vm.value = message;
+      if (message is bool) {
+        isConnected.value = message;
+      } else {
+        vm.value = message;
+      }
     });
   }
 
@@ -74,7 +78,7 @@ class BinanceWebSocketService extends GetxService {
 
     try {
       _webSocketChannel = IOWebSocketChannel.connect(url);
-      isConnected.value = true;
+      sendPort.send(true);
       send(currentCoin);
       _webSocketChannel?.stream.listen(
         (message) async {
@@ -84,14 +88,14 @@ class BinanceWebSocketService extends GetxService {
           }
         },
         onDone: () {
-          isConnected.value = false;
+          sendPort.send(false);
         },
         onError: (error) {
-          isConnected.value = false;
+          sendPort.send(false);
         },
       );
     } catch (e) {
-      isConnected.value = false;
+      sendPort.send(false);
       print('DEBUG: BinanceWebSocketService.connect() failed: $e');
     }
   }
