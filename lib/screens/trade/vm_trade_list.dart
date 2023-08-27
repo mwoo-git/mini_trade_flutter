@@ -1,6 +1,6 @@
 import 'package:get/get.dart';
 import 'package:mini_trade_flutter/global/api/binance_socket.dart';
-import 'package:mini_trade_flutter/global/common/data/prefs.dart';
+import 'package:mini_trade_flutter/global/data/prefs.dart';
 import 'package:mini_trade_flutter/screens/trade/vm_trade_tile.dart';
 
 class TradeListViewModel extends GetxController {

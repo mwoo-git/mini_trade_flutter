@@ -3,7 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:mini_trade_flutter/global/api/binance_socket.dart';
-import 'package:mini_trade_flutter/global/common/data/prefs.dart';
+import 'package:mini_trade_flutter/global/data/prefs.dart';
 import 'package:velocity_x/velocity_x.dart';
 
 class EditAmountView extends StatefulWidget {

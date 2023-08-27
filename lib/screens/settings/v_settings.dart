@@ -1,7 +1,12 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:mini_trade_flutter/screens/settings/v_edit_amount.dart';
-import 'package:mini_trade_flutter/screens/settings/v_edit_color.dart';
-import 'package:mini_trade_flutter/screens/settings/v_edit_theme.dart';
+import 'package:get/get.dart';
+import '../common/w_switch.dart';
+import 'v_edit_amount.dart';
+import 'v_edit_color.dart';
+import 'v_edit_theme.dart';
+
+import '../../global/theme/theme_util.dart';
 
 class SettingsView extends StatelessWidget {
   const SettingsView({super.key});
@@ -11,6 +16,7 @@ class SettingsView extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(title: const Text('설정')),
       body: ListView(children: [
+        themeChangeTile(context),
         settingsTile(
           context,
           title: '순간거래대금 조회조건',
@@ -30,20 +36,33 @@ class SettingsView extends StatelessWidget {
     );
   }
 
+  ListTile themeChangeTile(BuildContext context) => ListTile(
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            const Text('다크 테마'),
+            CustomSwitch(
+                value: context.isDarkMode,
+                onChanged: (value) {
+                  ThemeUtil.toggleTheme(context);
+                }),
+          ],
+        ),
+      );
+
   ListTile settingsTile(BuildContext context,
-      {required String title, required Widget page}) {
-    return ListTile(
-      title: Text(title),
-      trailing: const Icon(
-        Icons.chevron_right,
-        color: Colors.grey,
-      ),
-      onTap: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => page),
-        );
-      },
-    );
-  }
+          {required String title, required Widget page}) =>
+      ListTile(
+        title: Text(title),
+        trailing: const Icon(
+          Icons.chevron_right,
+          color: Colors.grey,
+        ),
+        onTap: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => page),
+          );
+        },
+      );
 }

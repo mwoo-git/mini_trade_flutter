@@ -5,6 +5,8 @@ import 'package:mini_trade_flutter/screens/common/w_progress.dart';
 import 'package:mini_trade_flutter/screens/home/vm_coin_list.dart';
 import 'package:mini_trade_flutter/screens/home/vm_ticker.dart';
 
+import '../../global/data/prefs.dart';
+
 class CoinListView extends StatelessWidget {
   const CoinListView({super.key});
 
@@ -22,7 +24,7 @@ class CoinListView extends StatelessWidget {
               return listHeader.paddingOnly(left: 17, right: 21);
             } else {
               final ticker = vm.coinlist[index - 1];
-              return listTileView(ticker);
+              return listTileView(ticker, context);
             }
           },
         );
@@ -38,13 +40,16 @@ class CoinListView extends StatelessWidget {
         ],
       );
 
-  ListTile listTileView(TickerViewModel ticker) {
+  ListTile listTileView(TickerViewModel ticker, BuildContext context) {
+    Color color = Theme.of(context).brightness == Brightness.dark
+        ? Colors.white
+        : Colors.black;
     return ListTile(
       onTap: () => listTileTabed(ticker.market),
       title: RichText(
         text: TextSpan(
           text: ticker.symbol,
-          style: const TextStyle(fontSize: 16.0, color: Colors.black),
+          style: TextStyle(fontSize: 16.0, color: color),
           children: const <TextSpan>[
             TextSpan(
               text: ' / USDT',
