@@ -14,7 +14,7 @@ class EditColorView extends StatefulWidget {
 class _EditColorViewState extends State<EditColorView> {
   @override
   Widget build(BuildContext context) {
-    const title = '매수 / 매도 색상';
+    const title = '바이낸스 테마';
     const description = '바이낸스 테마 사용 시 매수는 초록색, 매도는 빨간색으로 보여집니다.';
     return Scaffold(
         appBar: AppBar(

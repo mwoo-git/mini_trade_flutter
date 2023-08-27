@@ -17,10 +17,14 @@ class TradeListView extends StatefulWidget {
 class _TradeListViewState extends State<TradeListView> {
   @override
   void initState() {
+    observer();
+    super.initState();
+  }
+
+  observer() {
     ever(Prefs.didBinanceThemeChanged, (value) {
       setState(() {});
     });
-    super.initState();
   }
 
   @override

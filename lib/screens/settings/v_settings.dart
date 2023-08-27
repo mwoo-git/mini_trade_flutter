@@ -1,10 +1,8 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../common/w_switch.dart';
 import 'v_edit_amount.dart';
 import 'v_edit_color.dart';
-import 'v_edit_theme.dart';
 
 import '../../global/theme/theme_util.dart';
 
@@ -24,14 +22,9 @@ class SettingsView extends StatelessWidget {
         ),
         settingsTile(
           context,
-          title: '매수 / 매도 색상',
+          title: '바이낸스 테마',
           page: const EditColorView(),
         ),
-        settingsTile(
-          context,
-          title: '앱 라이트/다크 테마',
-          page: const EditThemeView(),
-        )
       ]),
     );
   }

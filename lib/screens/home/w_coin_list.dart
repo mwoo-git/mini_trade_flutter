@@ -24,10 +24,14 @@ class CoinListView extends StatefulWidget {
 class _CoinListViewState extends State<CoinListView> {
   @override
   void initState() {
+    observer();
+    super.initState();
+  }
+
+  observer() {
     ever(Prefs.didBinanceThemeChanged, (value) {
       setState(() {});
     });
-    super.initState();
   }
 
   @override
