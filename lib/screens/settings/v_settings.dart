@@ -24,7 +24,7 @@ class SettingsView extends StatelessWidget {
         ),
         settingsTile(
           context,
-          title: '매수/매도 색상',
+          title: '매수 / 매도 색상',
           page: const EditColorView(),
         ),
         settingsTile(

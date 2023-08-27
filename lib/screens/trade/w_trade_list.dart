@@ -4,8 +4,24 @@ import 'package:mini_trade_flutter/screens/common/w_progress.dart';
 import 'package:mini_trade_flutter/screens/trade/vm_trade_list.dart';
 import 'package:mini_trade_flutter/screens/trade/vm_trade_tile.dart';
 
-class TradeListView extends StatelessWidget {
+import '../../global/constant/app_colors.dart';
+import '../../global/data/prefs.dart';
+
+class TradeListView extends StatefulWidget {
   const TradeListView({super.key});
+
+  @override
+  State<TradeListView> createState() => _TradeListViewState();
+}
+
+class _TradeListViewState extends State<TradeListView> {
+  @override
+  void initState() {
+    ever(Prefs.didBinanceThemeChanged, (value) {
+      setState(() {});
+    });
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -56,7 +72,8 @@ class TradeListView extends StatelessWidget {
           ),
           Text(
             ticker.amount,
-            style: TextStyle(color: ticker.color),
+            style:
+                TextStyle(color: AppColors.getTradeColor(ticker.ticker.trade)),
           ),
         ],
       ),

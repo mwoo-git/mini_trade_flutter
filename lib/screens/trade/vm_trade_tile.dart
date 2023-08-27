@@ -24,12 +24,10 @@ class TradeTileViewModel {
     final double quantityValue = double.parse(ticker.quantity ?? '0');
     final double amount = priceValue * quantityValue;
     final int integerAmount = amount.toInt();
-    return integerAmount.toString();
+
+    final NumberFormat numberFormat = NumberFormat("#,##0");
+    final String formattedString = numberFormat.format(integerAmount);
+
+    return formattedString;
   }
-
-  Color get color => ticker.trade ?? false ? buy : sell;
-
-  Color get buy => Colors.red;
-
-  Color get sell => Colors.blue;
 }

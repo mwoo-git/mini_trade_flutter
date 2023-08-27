@@ -3,6 +3,8 @@ import 'package:get/get.dart';
 import 'package:mini_trade_flutter/global/api/binance_socket.dart';
 import 'package:mini_trade_flutter/screens/home/vm_coin_list.dart';
 
+import '../../global/constant/app_colors.dart';
+
 class CoinSearchDelegate extends SearchDelegate {
   final CoinListViewModel vm;
 
@@ -91,7 +93,9 @@ class CoinSearchDelegate extends SearchDelegate {
           title: Text(ticker.symbol),
           trailing: Text(
             ticker.changeRate,
-            style: TextStyle(color: ticker.color),
+            style: TextStyle(
+              color: AppColors.getTradeColor(ticker.ticker.changeRate),
+            ),
           ),
           // You can add more details here if needed
         );

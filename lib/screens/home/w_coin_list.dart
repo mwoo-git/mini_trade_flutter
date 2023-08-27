@@ -2,16 +2,33 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mini_trade_flutter/global/api/binance_socket.dart';
 import 'package:mini_trade_flutter/global/dart/extension/context_extension.dart';
-import 'package:mini_trade_flutter/global/theme/color/abs_theme_colors.dart';
-import 'package:mini_trade_flutter/global/theme/color/dark_app_colors.dart';
 import 'package:mini_trade_flutter/screens/common/w_progress.dart';
 import 'package:mini_trade_flutter/screens/home/vm_coin_list.dart';
 import 'package:mini_trade_flutter/screens/home/vm_ticker.dart';
 
+import '../../global/constant/app_colors.dart';
 import '../../global/data/prefs.dart';
 
-class CoinListView extends StatelessWidget {
+class CoinListView extends StatefulWidget {
   const CoinListView({super.key});
+
+  @override
+  State<CoinListView> createState() => _CoinListViewState();
+
+  static listTileTabed(String market) {
+    BinanceWebSocketService.currentCoin.value = market;
+    BinanceWebSocketService.switchTabIndex.toggle();
+  }
+}
+
+class _CoinListViewState extends State<CoinListView> {
+  @override
+  void initState() {
+    ever(Prefs.didBinanceThemeChanged, (value) {
+      setState(() {});
+    });
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -44,8 +61,10 @@ class CoinListView extends StatelessWidget {
       );
 
   ListTile listTileView(TickerViewModel ticker, BuildContext context) {
+    Color color = AppColors.getTradeColor(ticker.ticker.changeRate);
+
     return ListTile(
-      onTap: () => listTileTabed(ticker.market),
+      onTap: () => CoinListView.listTileTabed(ticker.market),
       title: RichText(
         text: TextSpan(
           text: ticker.symbol,
@@ -66,7 +85,7 @@ class CoinListView extends StatelessWidget {
           Text(
             ticker.changeRate,
             style: TextStyle(
-              color: ticker.color,
+              color: color,
               fontSize: 14.0,
             ),
           ),
@@ -79,10 +98,5 @@ class CoinListView extends StatelessWidget {
         ],
       ),
     );
-  }
-
-  static listTileTabed(String market) {
-    BinanceWebSocketService.currentCoin.value = market;
-    BinanceWebSocketService.switchTabIndex.toggle();
   }
 }
