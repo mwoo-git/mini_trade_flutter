@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mini_trade_flutter/global/api/binance_socket.dart';
+import 'package:mini_trade_flutter/global/dart/extension/context_extension.dart';
+import 'package:mini_trade_flutter/global/theme/color/abs_theme_colors.dart';
+import 'package:mini_trade_flutter/global/theme/color/dark_app_colors.dart';
 import 'package:mini_trade_flutter/screens/common/w_progress.dart';
 import 'package:mini_trade_flutter/screens/home/vm_coin_list.dart';
 import 'package:mini_trade_flutter/screens/home/vm_ticker.dart';
@@ -41,15 +44,12 @@ class CoinListView extends StatelessWidget {
       );
 
   ListTile listTileView(TickerViewModel ticker, BuildContext context) {
-    Color color = Theme.of(context).brightness == Brightness.dark
-        ? Colors.white
-        : Colors.black;
     return ListTile(
       onTap: () => listTileTabed(ticker.market),
       title: RichText(
         text: TextSpan(
           text: ticker.symbol,
-          style: TextStyle(fontSize: 16.0, color: color),
+          style: TextStyle(fontSize: 16.0, color: context.appColors.textColor),
           children: const <TextSpan>[
             TextSpan(
               text: ' / USDT',

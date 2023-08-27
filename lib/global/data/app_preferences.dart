@@ -1,4 +1,5 @@
 import 'package:flutter/foundation.dart';
+import '../theme/custom_theme.dart';
 import 'item/preference_item.dart';
 export './item/preference_item.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -96,36 +97,34 @@ class AppPreferences {
       case const (List<String>):
         return _prefs.getStringList(key) as T? ?? item.defaultValue;
       default:
-        return _prefs.getStringList(key) as T? ?? item.defaultValue;
-      // return transform(T, _prefs.getString(key)) ?? item.defaultValue;
-      // 나중에 테마 앱 테마 변경 시 다시보기
+        return transform(T, _prefs.getString(key)) ?? item.defaultValue;
     }
   }
 
-  // static T? transform<T>(Type t, String? value) {
-  //   if (value == null) {
-  //     return null;
-  //   }
+  static T? transform<T>(Type t, String? value) {
+    if (value == null) {
+      return null;
+    }
 
-  //   bool isNullableType = checkIsNullable<T>();
-  //   if (isNullableType) {
-  //     switch (t.toString()) {
-  //       case "CustomTheme?":
-  //         return CustomTheme.values.asNameMap()[value] as T?;
-  //       case "DateTime?":
-  //         return DateTime.parse(value) as T?;
-  //       default:
-  //         throw Exception('$t 타입에 대한 transform 함수를 추가 해주세요.');
-  //     }
-  //   } else {
-  //     switch (t) {
-  //       case CustomTheme:
-  //         return CustomTheme.values.asNameMap()[value] as T?;
-  //       case DateTime:
-  //         return DateTime.parse(value) as T?;
-  //       default:
-  //         throw Exception('$t 타입에 대한 transform 함수를 추가 해주세요.');
-  //     }
-  //   }
-  // }
+    bool isNullableType = checkIsNullable<T>();
+    if (isNullableType) {
+      switch (t.toString()) {
+        case "CustomTheme?":
+          return CustomTheme.values.asNameMap()[value] as T?;
+        case "DateTime?":
+          return DateTime.parse(value) as T?;
+        default:
+          throw Exception('$t 타입에 대한 transform 함수를 추가 해주세요.');
+      }
+    } else {
+      switch (t) {
+        case CustomTheme:
+          return CustomTheme.values.asNameMap()[value] as T?;
+        case DateTime:
+          return DateTime.parse(value) as T?;
+        default:
+          throw Exception('$t 타입에 대한 transform 함수를 추가 해주세요.');
+      }
+    }
+  }
 }

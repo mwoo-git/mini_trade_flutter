@@ -11,6 +11,35 @@ class CoinSearchDelegate extends SearchDelegate {
   @override
   String? get searchFieldLabel => '심볼 검색';
 
+  @override
+  ThemeData appBarTheme(BuildContext context) {
+    final theme = Theme.of(context);
+    final brightness = theme.brightness;
+    final isDarkTheme = brightness == Brightness.dark;
+
+    return theme.copyWith(
+      appBarTheme: AppBarTheme(
+        backgroundColor: isDarkTheme
+            ? Colors.black.withOpacity(0)
+            : Colors.white, // 검색바 배경색 조정
+      ),
+      inputDecorationTheme: InputDecorationTheme(
+        hintStyle: TextStyle(
+          color: isDarkTheme ? Colors.white : Colors.black, // 힌트 텍스트 색상 조정
+        ),
+        enabledBorder: const UnderlineInputBorder(
+          borderSide: BorderSide(color: Colors.transparent),
+        ),
+        focusedBorder: const UnderlineInputBorder(
+          borderSide: BorderSide(color: Colors.transparent),
+        ),
+      ),
+      textSelectionTheme: TextSelectionThemeData(
+        cursorColor: isDarkTheme ? Colors.white : Colors.black,
+      ),
+    );
+  }
+
   /// 삭제 버튼
   @override
   List<Widget>? buildActions(BuildContext context) {

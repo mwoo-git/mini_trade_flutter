@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../theme/color/abs_theme_colors.dart';
 import '../../theme/custom_theme.dart';
 import '../../theme/custom_theme_holder.dart';
 
@@ -36,7 +37,7 @@ extension ContextExtension on BuildContext {
     return MediaQuery.of(this).platformBrightness;
   }
 
-  // AbstractThemeColors get appColors => CustomThemeHolder.of(this).appColors;
+  AbstractThemeColors get appColors => CustomThemeHolder.of(this).appColors;
 
   // AbsThemeShadows get appShadows => CustomThemeHolder.of(this).appShadows;
 
