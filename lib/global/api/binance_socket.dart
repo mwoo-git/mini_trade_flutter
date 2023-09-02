@@ -20,11 +20,11 @@ class BinanceWebSocketService extends GetxService {
   static final url = Uri.parse('wss://fstream.binance.com/ws');
   static WebSocketChannel? _webSocketChannel;
 
-  static final RxBool isConnected = RxBool(false);
+  static final RxBool isConnected = false.obs;
   static final Rx<dynamic> vm = Rx<dynamic>(null);
   static final RxString currentCoin = RxString('BTCUSDT');
   static final RxBool switchTabIndex = false.obs;
-  static final RxInt userAmount = RxInt(Prefs.amount.get());
+  static final RxInt userAmount = Prefs.amount.get().obs;
 
   late Isolate _isolate;
   late ReceivePort? receivePort;

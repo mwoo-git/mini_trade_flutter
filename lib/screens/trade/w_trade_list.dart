@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:mini_trade_flutter/screens/common/w_progress.dart';
 import 'package:mini_trade_flutter/screens/trade/vm_trade_list.dart';
 import 'package:mini_trade_flutter/screens/trade/vm_trade_tile.dart';
+import 'package:mini_trade_flutter/screens/trade/w_empty_list.dart';
 
 import '../../global/constant/app_colors.dart';
 import '../../global/data/prefs.dart';
@@ -32,7 +33,7 @@ class _TradeListViewState extends State<TradeListView> {
     return Obx(() {
       final vm = Get.find<TradeListViewModel>();
       if (vm.tradelist.isEmpty) {
-        return const ProgressView();
+        return const EmptyListView();
       } else {
         return ListView.builder(
           reverse: false,
