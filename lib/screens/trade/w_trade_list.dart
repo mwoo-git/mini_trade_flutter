@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:mini_trade_flutter/screens/common/w_progress.dart';
 import 'package:mini_trade_flutter/screens/trade/vm_trade_list.dart';
 import 'package:mini_trade_flutter/screens/trade/vm_trade_tile.dart';
 import 'package:mini_trade_flutter/screens/trade/w_empty_list.dart';
 
+import '../../global/ad/ad_helper.dart';
 import '../../global/constant/app_colors.dart';
 import '../../global/data/prefs.dart';
+import '../common/w_banner_ad.dart';
 
 class TradeListView extends StatefulWidget {
   const TradeListView({super.key});
@@ -16,10 +17,19 @@ class TradeListView extends StatefulWidget {
 }
 
 class _TradeListViewState extends State<TradeListView> {
+  late BannerAd bannerAd;
+
   @override
   void initState() {
     observer();
+    configureBannerAd();
+
     super.initState();
+  }
+
+  configureBannerAd() {
+    bannerAd = AdHelper.configureBannerAd();
+    bannerAd.load();
   }
 
   observer() {
@@ -40,9 +50,14 @@ class _TradeListViewState extends State<TradeListView> {
           itemCount: vm.tradelist.length + 1,
           itemBuilder: (context, index) {
             if (index == 0) {
+              // 첫 번째 아이템에 광고를 추가
+              return BannerAdWidget(bannerAd: bannerAd).paddingOnly(bottom: 15);
+            } else if (index == 1) {
+              // 두 번째 아이템에 리스트 헤더를 추가
               return listHeader.paddingOnly(left: 18, right: 21);
             } else {
-              final ticker = vm.tradelist[index - 1];
+              // 나머지 리스트 아이템 처리
+              final ticker = vm.tradelist[index - 2];
               return listTileView(ticker);
             }
           },
@@ -83,5 +98,12 @@ class _TradeListViewState extends State<TradeListView> {
         ],
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    // 광고 해제
+    bannerAd.dispose();
+    super.dispose();
   }
 }

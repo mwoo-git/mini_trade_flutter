@@ -2,10 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mini_trade_flutter/global/api/binance_socket.dart';
 import 'package:mini_trade_flutter/global/dart/extension/context_extension.dart';
+import 'package:mini_trade_flutter/screens/common/w_banner_ad.dart';
 import 'package:mini_trade_flutter/screens/common/w_progress.dart';
 import 'package:mini_trade_flutter/screens/home/vm_coin_list.dart';
 import 'package:mini_trade_flutter/screens/home/vm_ticker.dart';
-
+import '../../global/ad/ad_helper.dart';
 import '../../global/constant/app_colors.dart';
 import '../../global/data/prefs.dart';
 
@@ -22,10 +23,19 @@ class CoinListView extends StatefulWidget {
 }
 
 class _CoinListViewState extends State<CoinListView> {
+  late BannerAd bannerAd;
+
   @override
   void initState() {
     observer();
+    configureBannerAd();
+
     super.initState();
+  }
+
+  configureBannerAd() {
+    bannerAd = AdHelper.configureBannerAd();
+    bannerAd.load();
   }
 
   observer() {
@@ -45,9 +55,14 @@ class _CoinListViewState extends State<CoinListView> {
           itemCount: vm.coinlist.length + 1,
           itemBuilder: (context, index) {
             if (index == 0) {
+              // 첫 번째 아이템에 광고를 추가
+              return BannerAdWidget(bannerAd: bannerAd).paddingOnly(bottom: 15);
+            } else if (index == 1) {
+              // 두 번째 아이템에 리스트 헤더를 추가
               return listHeader.paddingOnly(left: 17, right: 21);
             } else {
-              final ticker = vm.coinlist[index - 1];
+              // 나머지 리스트 아이템 처리
+              final ticker = vm.coinlist[index - 2]; // -2를 해서 올바른 데이터 인덱스로 변환
               return listTileView(ticker, context);
             }
           },
@@ -102,5 +117,12 @@ class _CoinListViewState extends State<CoinListView> {
         ],
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    // 광고 해제
+    bannerAd.dispose();
+    super.dispose();
   }
 }
