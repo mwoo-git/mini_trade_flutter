@@ -3,18 +3,23 @@ import 'package:get/get.dart';
 import 'package:mini_trade_flutter/screens/trade/vm_trade_list.dart';
 import 'package:mini_trade_flutter/screens/trade/vm_trade_tile.dart';
 import 'package:mini_trade_flutter/screens/trade/w_empty_list.dart';
-import 'package:velocity_x/velocity_x.dart';
-
 import '../../global/ad/ad_helper.dart';
+import '../../global/api/binance_socket.dart';
 import '../../global/constant/app_colors.dart';
 import '../../global/data/prefs.dart';
 import '../common/w_banner_ad.dart';
+import '../v_main_tab.dart';
 
 class TradeListView extends StatefulWidget {
   const TradeListView({super.key});
 
   @override
   State<TradeListView> createState() => _TradeListViewState();
+
+  static updateView(String market) {
+    BinanceWebSocketService.currentCoin.value = market;
+    MainTabView.currentIndex.value = 1;
+  }
 }
 
 class _TradeListViewState extends State<TradeListView> {
