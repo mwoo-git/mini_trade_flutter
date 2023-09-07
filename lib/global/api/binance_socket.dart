@@ -21,7 +21,7 @@ class BinanceWebSocketService extends GetxService {
   static WebSocketChannel? _webSocketChannel;
 
   static final RxBool isConnected = false.obs;
-  static final Rx<dynamic> vm = Rx<dynamic>(null);
+  static final Rx<TradeTileViewModel?> vm = Rx<TradeTileViewModel?>(null);
   static final RxString currentCoin = RxString('BTCUSDT');
   static final RxInt userAmount = Prefs.amount.get().obs;
 

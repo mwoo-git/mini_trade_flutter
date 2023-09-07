@@ -76,10 +76,10 @@ class _TradeListViewState extends State<TradeListView> {
           Row(
             children: [
               SizedBox(width: 100, child: Text('시간')),
-              Text('가격'),
+              Text('체결가'),
             ],
           ),
-          Text('거래대금(USDT)'),
+          Text('순간체결량(USDT)'),
         ],
       );
 
