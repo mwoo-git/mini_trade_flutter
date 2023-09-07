@@ -3,14 +3,9 @@ import 'package:get/get.dart';
 import 'trade/v_trade.dart';
 import 'home/v_home.dart';
 
-class MainTabView extends StatefulWidget {
-  const MainTabView({super.key});
+class MainTabView extends StatelessWidget {
+  MainTabView({super.key});
 
-  @override
-  State<MainTabView> createState() => MainTabViewState();
-}
-
-class MainTabViewState extends State<MainTabView> {
   late final List<Widget> _tabs = [
     const HomeView(),
     const TradeView(),

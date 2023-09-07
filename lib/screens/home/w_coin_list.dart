@@ -19,7 +19,7 @@ class CoinListView extends StatefulWidget {
 
   static listTileTabed(String market) {
     BinanceWebSocketService.currentCoin.value = market;
-    MainTabViewState.currentIndex.value = 1;
+    MainTabView.currentIndex.value = 1;
   }
 }
 

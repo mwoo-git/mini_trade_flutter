@@ -14,7 +14,7 @@ class App extends StatelessWidget {
         return GetMaterialApp(
           debugShowCheckedModeBanner: false,
           theme: context.themeType.themeData,
-          home: const MainTabView(),
+          home: MainTabView(),
         );
       }),
     );

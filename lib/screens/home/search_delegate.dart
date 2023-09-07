@@ -106,7 +106,7 @@ class CoinSearchDelegate extends SearchDelegate {
 
   listTileTabed(BuildContext context, String market) {
     BinanceWebSocketService.currentCoin.value = market;
-    MainTabViewState.currentIndex.value = 1;
+    MainTabView.currentIndex.value = 1;
     close(context, null);
   }
 }
