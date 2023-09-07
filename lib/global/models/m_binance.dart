@@ -4,7 +4,7 @@ class BinanceTradeTicker {
   final String? symbol;
   final String? price;
   final String? quantity;
-  final bool? trade;
+  final bool? trade; // Is the buyer the market maker?
   final int? tradeId;
 
   BinanceTradeTicker({

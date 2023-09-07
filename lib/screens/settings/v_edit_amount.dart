@@ -56,9 +56,9 @@ class _EditAmountViewState extends State<EditAmountView> {
         child: Text(
           '완료',
           style: TextStyle(
-              color: isButtonEnabled ? Colors.blue : Colors.grey,
-              fontSize: 20,
-              fontWeight: FontWeight.bold),
+            color: isButtonEnabled ? Colors.blue : Colors.grey,
+            fontSize: 20,
+          ),
         ),
       );
 

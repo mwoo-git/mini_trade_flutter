@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:mini_trade_flutter/screens/trade/vm_trade_list.dart';
 import 'package:mini_trade_flutter/screens/trade/vm_trade_tile.dart';
 import 'package:mini_trade_flutter/screens/trade/w_empty_list.dart';
+import 'package:velocity_x/velocity_x.dart';
 
 import '../../global/ad/ad_helper.dart';
 import '../../global/constant/app_colors.dart';
@@ -42,27 +43,25 @@ class _TradeListViewState extends State<TradeListView> {
   Widget build(BuildContext context) {
     return Obx(() {
       final vm = Get.find<TradeListViewModel>();
-      if (vm.tradelist.isEmpty) {
-        return const EmptyListView();
-      } else {
-        return ListView.builder(
-          reverse: false,
-          itemCount: vm.tradelist.length + 1,
-          itemBuilder: (context, index) {
-            if (index == 0) {
-              // 첫 번째 아이템에 광고를 추가
-              return BannerAdWidget(bannerAd: bannerAd).paddingOnly(bottom: 15);
-            } else if (index == 1) {
-              // 두 번째 아이템에 리스트 헤더를 추가
-              return listHeader.paddingOnly(left: 18, right: 21);
-            } else {
-              // 나머지 리스트 아이템 처리
-              final ticker = vm.tradelist[index - 2];
-              return listTileView(ticker);
-            }
-          },
-        );
-      }
+      return ListView.builder(
+        reverse: false,
+        itemCount: vm.tradelist.length + 2,
+        itemBuilder: (context, index) {
+          if (index == 0) {
+            // 첫 번째 아이템에 광고를 추가
+            return BannerAdWidget(bannerAd: bannerAd).paddingOnly(bottom: 15);
+          } else if (index == 1) {
+            // 두 번째 아이템에 리스트 헤더를 추가
+            return vm.tradelist.isEmpty
+                ? const EmptyListView()
+                : listHeader.paddingOnly(left: 18, right: 21);
+          } else {
+            // 나머지 리스트 아이템 처리
+            final ticker = vm.tradelist[index - 2];
+            return listTileView(ticker);
+          }
+        },
+      );
     });
   }
 
@@ -75,7 +74,7 @@ class _TradeListViewState extends State<TradeListView> {
               Text('가격'),
             ],
           ),
-          Text('거래대금'),
+          Text('거래대금(USDT)'),
         ],
       );
 
@@ -91,9 +90,14 @@ class _TradeListViewState extends State<TradeListView> {
             ],
           ),
           Text(
-            ticker.amount,
-            style:
-                TextStyle(color: AppColors.getTradeColor(ticker.ticker.trade)),
+            ticker.amountStr,
+            style: TextStyle(
+              color: AppColors.getTradeColor(ticker.ticker.trade),
+              decoration:
+                  ticker.amounInt > 100000 ? TextDecoration.underline : null,
+              decorationColor: AppColors.getTradeColor(ticker.ticker.trade),
+              fontWeight: ticker.amounInt > 100000 ? FontWeight.bold : null,
+            ),
           ),
         ],
       ),

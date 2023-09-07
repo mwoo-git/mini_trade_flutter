@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 
 class BannerAdWidget extends StatelessWidget {
@@ -10,9 +11,8 @@ class BannerAdWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       alignment: Alignment.center,
-      width: bannerAd.size.width.toDouble(),
-      height: bannerAd.size.height.toDouble(),
+      height: 50.0,
       child: AdWidget(ad: bannerAd),
-    );
+    ).paddingSymmetric(horizontal: 15);
   }
 }

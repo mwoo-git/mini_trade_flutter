@@ -19,14 +19,16 @@ class TradeTileViewModel {
 
   String get quantity => ticker.quantity ?? '0';
 
-  String get amount {
+  int get amounInt {
     final double priceValue = double.parse(ticker.price ?? '0');
     final double quantityValue = double.parse(ticker.quantity ?? '0');
     final double amount = priceValue * quantityValue;
-    final int integerAmount = amount.toInt();
+    return amount.toInt();
+  }
 
+  String get amountStr {
     final NumberFormat numberFormat = NumberFormat("#,##0");
-    final String formattedString = numberFormat.format(integerAmount);
+    final String formattedString = numberFormat.format(amounInt);
 
     return formattedString;
   }
