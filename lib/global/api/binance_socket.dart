@@ -23,7 +23,6 @@ class BinanceWebSocketService extends GetxService {
   static final RxBool isConnected = false.obs;
   static final Rx<dynamic> vm = Rx<dynamic>(null);
   static final RxString currentCoin = RxString('BTCUSDT');
-  static final RxBool switchTabIndex = false.obs;
   static final RxInt userAmount = Prefs.amount.get().obs;
 
   late Isolate _isolate;

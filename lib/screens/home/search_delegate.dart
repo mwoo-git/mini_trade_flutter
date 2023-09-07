@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mini_trade_flutter/global/api/binance_socket.dart';
 import 'package:mini_trade_flutter/screens/home/vm_coin_list.dart';
+import 'package:mini_trade_flutter/screens/v_main_tab.dart';
 
 import '../../global/constant/app_colors.dart';
 
@@ -105,7 +106,7 @@ class CoinSearchDelegate extends SearchDelegate {
 
   listTileTabed(BuildContext context, String market) {
     BinanceWebSocketService.currentCoin.value = market;
-    BinanceWebSocketService.switchTabIndex.toggle();
+    MainTabViewState.currentIndex.value = 1;
     close(context, null);
   }
 }
