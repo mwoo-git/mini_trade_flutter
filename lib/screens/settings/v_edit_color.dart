@@ -42,15 +42,10 @@ class _EditColorViewState extends State<EditColorView> {
           CustomSwitch(
               value: Prefs.isBinanceTheme.get(),
               onChanged: (value) {
-                changeBinanceTheme(value);
+                setState(() {
+                  Prefs.changePrefs(PrefsType.binanceTheme, value);
+                });
               }),
         ],
       );
-
-  void changeBinanceTheme(bool value) {
-    setState(() {
-      Prefs.isBinanceTheme.set(value);
-      Prefs.didBinanceThemeChanged.toggle();
-    });
-  }
 }

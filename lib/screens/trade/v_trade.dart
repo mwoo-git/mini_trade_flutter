@@ -42,13 +42,7 @@ class _TradeViewState extends State<TradeView> {
 
   AppBar appBar() => AppBar(
         leading: const ConnectIconView(),
-        title: Text(
-          '$curruntCoin 미니체결',
-          // style: TextStyle(
-          //     fontSize: 18,
-          //     fontWeight: FontWeight.normal,
-          //     color: context.appColors.textColor),
-        ),
+        title: Text('$curruntCoin 미니체결'),
         actions: [
           IconButton(
             onPressed: () {

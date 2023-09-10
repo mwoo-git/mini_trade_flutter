@@ -89,8 +89,7 @@ class _EditAmountViewState extends State<EditAmountView> {
 
   void doneButtonTaped() {
     if (inputValue != null) {
-      Prefs.amount.set(inputValue!);
-      Prefs.didAmountChanged.toggle();
+      Prefs.changePrefs(PrefsType.amount, inputValue);
       current = inputValue!;
       setState(() {
         isButtonEnabled = false;

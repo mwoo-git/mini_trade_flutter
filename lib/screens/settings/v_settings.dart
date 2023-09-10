@@ -22,6 +22,16 @@ class SettingsView extends StatelessWidget {
         ),
         settingsTile(
           context,
+          title: '밑줄 강조',
+          page: const EditColorView(),
+        ),
+        settingsTile(
+          context,
+          title: '소리 / 진동 알림',
+          page: const EditColorView(),
+        ),
+        settingsTile(
+          context,
           title: '바이낸스 테마',
           page: const EditColorView(),
         ),
