@@ -2,9 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
-import 'package:mini_trade_flutter/global/api/binance_socket.dart';
 import 'package:mini_trade_flutter/global/data/prefs.dart';
-import 'package:velocity_x/velocity_x.dart';
 
 class EditAmountView extends StatefulWidget {
   const EditAmountView({super.key});
@@ -150,6 +148,12 @@ class _CurrencyInputFormatter extends TextInputFormatter {
     // 숫자를 3자리마다 쉼표를 추가하여 포맷팅
     final numberFormat = NumberFormat('#,###');
     String formattedText = numberFormat.format(int.parse(numericText));
+
+    // 입력값이 99,999를 초과하면 수정하지 않음
+    int parsedValue = int.tryParse(numericText) ?? 0;
+    if (parsedValue >= 1000000) {
+      formattedText = oldValue.text;
+    }
 
     // 새로운 TextEditingValue 반환
     return TextEditingValue(
