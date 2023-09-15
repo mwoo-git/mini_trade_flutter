@@ -44,7 +44,7 @@ class _EditEditSpecificAmountViewState extends State<EditSpecificAmountView> {
             textField.paddingOnly(bottom: 10),
             if (isSmallAmount)
               Text('특정거래대금은 순간거래대금($amount USDT)과 같거나 더 커야 합니다.',
-                  style: TextStyle(color: Colors.red))
+                  style: const TextStyle(color: Colors.red))
             else
               Text(
                 description,

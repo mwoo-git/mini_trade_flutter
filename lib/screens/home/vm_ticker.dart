@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:mini_trade_flutter/global/models/m_binance.dart';
 
@@ -33,10 +32,4 @@ class TickerViewModel {
   }
 
   String get symbol => ticker.market.replaceFirst("USDT", "");
-
-  // Color get color => ticker.changeRate > 0 ? buy : sell;
-
-  // Color get buy => isBinanceTheme ? Colors.green : Colors.red;
-
-  // Color get sell => isBinanceTheme ? Colors.red : Colors.blue;
 }
