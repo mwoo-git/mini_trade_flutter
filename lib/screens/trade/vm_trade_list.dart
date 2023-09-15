@@ -13,6 +13,9 @@ class TradeListViewModel extends GetxController {
   RxList<TradeTileViewModel> tradelist = <TradeTileViewModel>[].obs;
 
   final player = AudioPlayer();
+  int specificAmount = Prefs.specificAmount.get();
+  bool useSound = Prefs.sound.get();
+  bool useVibrate = Prefs.vibrate.get();
 
   bool? hasVibrator;
 
@@ -55,20 +58,34 @@ class TradeListViewModel extends GetxController {
         clearList();
       },
     );
+
+    ever(Prefs.didSpecificAmountChanged, (value) {
+      specificAmount = Prefs.specificAmount.get();
+    });
+
+    ever(Prefs.didSoundChanged, (value) {
+      useSound = Prefs.sound.get();
+    });
+
+    ever(Prefs.didVibrateChanged, (value) {
+      useVibrate = Prefs.vibrate.get();
+    });
   }
 
   playSoundOrVibrateIfPossible(int amount) async {
-    if (amount > 100000 && MainTabView.currentIndex.value == 1) {
+    if (amount >= specificAmount && MainTabView.currentIndex.value == 1) {
       switch (await SoundMode.ringerModeStatus) {
         case RingerModeStatus.silent:
           break;
         case RingerModeStatus.vibrate:
-          if (hasVibrator == true) {
+          if (useVibrate) {
             Vibration.vibrate();
           }
         case RingerModeStatus.normal:
-          await player.stop();
-          await player.play(AssetSource('sounds/01.wav'));
+          if (useSound) {
+            await player.stop();
+            await player.play(AssetSource('sounds/01.wav'));
+          }
         default:
           break;
       }

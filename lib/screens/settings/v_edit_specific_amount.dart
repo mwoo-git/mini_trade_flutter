@@ -4,29 +4,31 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:mini_trade_flutter/global/data/prefs.dart';
 
-class EditAmountView extends StatefulWidget {
-  const EditAmountView({super.key});
+class EditSpecificAmountView extends StatefulWidget {
+  const EditSpecificAmountView({super.key});
 
   @override
-  State<EditAmountView> createState() => _EditAmountViewState();
+  State<EditSpecificAmountView> createState() =>
+      _EditEditSpecificAmountViewState();
 }
 
-class _EditAmountViewState extends State<EditAmountView> {
+class _EditEditSpecificAmountViewState extends State<EditSpecificAmountView> {
   late TextEditingController controller = TextEditingController(text: formated);
 
-  String title = '순간거래대금(USDT) 조회조건';
-  int current = Prefs.amount.get();
+  String title = '특정거래대금(USDT) 조건 설정';
+  int current = Prefs.specificAmount.get();
   late String formated = NumberFormat('#,##0').format(current);
-  String description = '설정하신 순간거래대금 이상의 체결내역만 보여지게 됩니다.';
+  String description = '설정하신 특정거래대금 이상에서만 밑줄과 알림이 사용됩니다.';
   bool isButtonEnabled = false;
   bool isSmallAmount = false;
   int? inputValue;
+  int userAmount = Prefs.amount.get();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: const Text('순간거래대금 조회조건'),
+          title: const Text('특정거래대금 조건 설정'),
           actions: [
             doneButton,
           ],
@@ -41,14 +43,14 @@ class _EditAmountViewState extends State<EditAmountView> {
             textField.paddingOnly(bottom: 10),
             if (isSmallAmount)
               const Text(
-                '순간거래대금은 10,000 USDT 이상으로 설정해주세요.',
+                '특정거래대금은 순간거래대금과 같거나 더 커야 합니다.',
                 style: TextStyle(color: Colors.red),
               )
             else
               Text(
                 description,
                 style: const TextStyle(color: Colors.grey),
-              )
+              ),
           ],
         ).paddingSymmetric(horizontal: 14));
   }
@@ -95,10 +97,7 @@ class _EditAmountViewState extends State<EditAmountView> {
 
   void doneButtonTaped() {
     if (inputValue != null) {
-      Prefs.changePrefs(PrefsType.amount, inputValue);
-      if (Prefs.specificAmount.get() < inputValue!) {
-        Prefs.changePrefs(PrefsType.specificAmount, inputValue);
-      }
+      Prefs.changePrefs(PrefsType.specificAmount, inputValue);
       current = inputValue!;
       setState(() {
         isButtonEnabled = false;
@@ -108,7 +107,7 @@ class _EditAmountViewState extends State<EditAmountView> {
 
   void onChanged(String text) {
     inputValue = parseAmount(text);
-    if (inputValue! >= 10000) {
+    if (inputValue! >= userAmount) {
       isSmallAmount = false;
       if (current != inputValue) {
         setState(() {
@@ -159,7 +158,7 @@ class _CurrencyInputFormatter extends TextInputFormatter {
 
     // 입력값이 99,999를 초과하면 수정하지 않음
     int parsedValue = int.tryParse(numericText) ?? 0;
-    if (parsedValue >= 1000000) {
+    if (parsedValue >= 10000000) {
       formattedText = oldValue.text;
     }
 

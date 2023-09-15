@@ -24,6 +24,8 @@ class TradeListView extends StatefulWidget {
 
 class _TradeListViewState extends State<TradeListView> {
   late BannerAd bannerAd;
+  bool useUnderline = Prefs.underline.get();
+  int specificAmount = Prefs.specificAmount.get();
 
   @override
   void initState() {
@@ -41,6 +43,18 @@ class _TradeListViewState extends State<TradeListView> {
   observer() {
     ever(Prefs.didBinanceThemeChanged, (value) {
       setState(() {});
+    });
+
+    ever(Prefs.didUnderlineChanged, (value) {
+      setState(() {
+        useUnderline = Prefs.underline.get();
+      });
+    });
+
+    ever(Prefs.didSpecificAmountChanged, (value) {
+      setState(() {
+        specificAmount = Prefs.specificAmount.get();
+      });
     });
   }
 
@@ -98,8 +112,9 @@ class _TradeListViewState extends State<TradeListView> {
             ticker.amountStr,
             style: TextStyle(
               color: AppColors.getTradeColor(ticker.ticker.trade),
-              decoration:
-                  ticker.amounInt > 100000 ? TextDecoration.underline : null,
+              decoration: isUnderline(ticker.amounInt)
+                  ? TextDecoration.underline
+                  : null,
               decorationColor: AppColors.getTradeColor(ticker.ticker.trade),
               fontWeight: ticker.amounInt > 100000 ? FontWeight.bold : null,
             ),
@@ -107,6 +122,13 @@ class _TradeListViewState extends State<TradeListView> {
         ],
       ),
     );
+  }
+
+  bool isUnderline(int amount) {
+    if (useUnderline) {
+      return amount > specificAmount ? true : false;
+    }
+    return false;
   }
 
   @override
