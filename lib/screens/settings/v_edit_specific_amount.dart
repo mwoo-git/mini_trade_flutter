@@ -26,6 +26,7 @@ class _EditEditSpecificAmountViewState extends State<EditSpecificAmountView> {
 
   @override
   Widget build(BuildContext context) {
+    final amount = NumberFormat('#,##0').format(Prefs.amount.get());
     return Scaffold(
         appBar: AppBar(
           title: const Text('특정거래대금 조건 설정'),
@@ -42,10 +43,8 @@ class _EditEditSpecificAmountViewState extends State<EditSpecificAmountView> {
             ),
             textField.paddingOnly(bottom: 10),
             if (isSmallAmount)
-              const Text(
-                '특정거래대금은 순간거래대금과 같거나 더 커야 합니다.',
-                style: TextStyle(color: Colors.red),
-              )
+              Text('특정거래대금은 순간거래대금($amount USDT)과 같거나 더 커야 합니다.',
+                  style: TextStyle(color: Colors.red))
             else
               Text(
                 description,
