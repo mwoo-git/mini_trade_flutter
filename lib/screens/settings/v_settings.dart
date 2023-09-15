@@ -25,7 +25,9 @@ class _SettingsViewState extends State<SettingsView> {
 
   observer() {
     ever(Prefs.didAmountChanged, (i) {
-      setState(() {});
+      if (mounted) {
+        setState(() {});
+      }
     });
 
     ever(Prefs.didSpecificAmountChanged, (i) {
