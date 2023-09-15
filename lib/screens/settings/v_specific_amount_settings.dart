@@ -38,9 +38,9 @@ class _SpecificAmountSettingViewState extends State<SpecificAmountSettingView> {
         body: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            underlineChangeTile(context).paddingOnly(bottom: 10),
-            soundChangeTile(context).paddingOnly(bottom: 10),
-            vibrateChangeTile(context).paddingOnly(bottom: 10),
+            underlineChangeTile(context).paddingOnly(bottom: 16, top: 16),
+            soundChangeTile(context).paddingOnly(bottom: 16),
+            vibrateChangeTile(context).paddingOnly(bottom: 16),
             specificAmountTile(context)
           ],
         ).paddingSymmetric(horizontal: 18));
