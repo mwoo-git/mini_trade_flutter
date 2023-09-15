@@ -45,6 +45,7 @@ dependencies:
   google_mobile_ads: ^3.0.0
   sound_mode: ^2.0.2
   vibration: ^1.8.1
+  url_launcher: ^6.1.14
   
 dev_dependencies:
   flutter_test:

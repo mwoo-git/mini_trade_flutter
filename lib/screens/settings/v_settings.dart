@@ -6,7 +6,7 @@ import '../../global/data/prefs.dart';
 import '../common/w_switch.dart';
 import 'v_edit_amount.dart';
 import 'v_edit_color.dart';
-
+import 'package:url_launcher/url_launcher.dart';
 import '../../global/theme/theme_util.dart';
 
 class SettingsView extends StatefulWidget {
@@ -70,10 +70,16 @@ class _SettingsViewState extends State<SettingsView> {
         headerText('정보 및 지원'),
         settingsTile(
           context,
+          title: '카카오톡 1:1 오픈채팅',
+          subtitle: null,
+          page: null,
+        ),
+        settingsTile(
+          context,
           title: '오픈 소스 라이브러리',
           subtitle: null,
           page: const LicensePage(),
-        )
+        ),
       ]),
     );
   }
@@ -105,7 +111,7 @@ class _SettingsViewState extends State<SettingsView> {
   ListTile settingsTile(BuildContext context,
           {required String title,
           required String? subtitle,
-          required Widget page}) =>
+          required Widget? page}) =>
       ListTile(
         title: Text(title),
         subtitle: (subtitle != null)
@@ -119,10 +125,25 @@ class _SettingsViewState extends State<SettingsView> {
           color: Colors.grey,
         ),
         onTap: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => page),
-          );
+          if (page != null) {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => page),
+            );
+          } else {
+            openKakaoChat();
+          }
         },
       );
+
+  openKakaoChat() async {
+    final Uri android = Uri.parse('https://open.kakao.com/o/sv7EsmHf');
+    final Uri ios = Uri.parse('https://open.kakao.com/o/svQlumHf');
+    final Uri url =
+        Theme.of(context).platform == TargetPlatform.android ? android : ios;
+
+    if (!await launchUrl(url)) {
+      throw Exception('Could not launch $url');
+    }
+  }
 }

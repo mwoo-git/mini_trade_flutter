@@ -47,7 +47,16 @@
 	<true/>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
+	
+	<!--구글 광고 ID-->
 	<key>GADApplicationIdentifier</key>
-    <string>ca-app-pub-9927157586283098~5535526658</string>
+    <string>ca-app-pub-9927157586283098~5535526658</string> 
+
+	<!--url_launcher-->
+	 <key>LSApplicationQueriesSchemes</key>
+  	<array>
+    	<string>https</string>
+    	<string>http</string>
+  </array>
 </dict>
 </plist>
