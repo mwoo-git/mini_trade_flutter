@@ -46,6 +46,7 @@ class _SettingsViewState extends State<SettingsView> {
     return Scaffold(
       appBar: AppBar(title: const Text('설정')),
       body: ListView(children: [
+        headerText('앱 설정'),
         themeChangeTile(context),
         settingsTile(
           context,
@@ -65,9 +66,27 @@ class _SettingsViewState extends State<SettingsView> {
           subtitle: null,
           page: const EditColorView(),
         ),
+        customDivider,
+        headerText('정보 및 지원'),
+        settingsTile(
+          context,
+          title: '오픈 소스 라이브러리',
+          subtitle: null,
+          page: const LicensePage(),
+        )
       ]),
     );
   }
+
+  Widget get customDivider => Container(
+        height: 5,
+        color: Colors.grey.withOpacity(0.1),
+      ).paddingOnly(bottom: 16);
+
+  Widget headerText(String title) => Text(
+        title,
+        style: const TextStyle(fontWeight: FontWeight.bold, color: Colors.grey),
+      ).paddingOnly(left: 16);
 
   ListTile themeChangeTile(BuildContext context) => ListTile(
         title: Row(

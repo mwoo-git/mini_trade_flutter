@@ -51,7 +51,7 @@ class _EditEditSpecificAmountViewState extends State<EditSpecificAmountView> {
                 style: const TextStyle(color: Colors.grey),
               ),
           ],
-        ).paddingSymmetric(horizontal: 14));
+        ).paddingSymmetric(horizontal: 18));
   }
 
   TextButton get doneButton => TextButton(

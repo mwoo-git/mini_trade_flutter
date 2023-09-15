@@ -43,7 +43,7 @@ class _SpecificAmountSettingViewState extends State<SpecificAmountSettingView> {
             vibrateChangeTile(context).paddingOnly(bottom: 10),
             specificAmountTile(context)
           ],
-        ).paddingSymmetric(horizontal: 14));
+        ).paddingSymmetric(horizontal: 18));
   }
 
   ListTile specificAmountTile(BuildContext context) {

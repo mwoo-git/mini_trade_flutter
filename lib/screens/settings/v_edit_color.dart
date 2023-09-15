@@ -29,7 +29,7 @@ class _EditColorViewState extends State<EditColorView> {
               style: TextStyle(color: Colors.grey),
             )
           ],
-        ).paddingSymmetric(horizontal: 14));
+        ).paddingSymmetric(horizontal: 18));
   }
 
   Row themeChangeTile(BuildContext context) => Row(
