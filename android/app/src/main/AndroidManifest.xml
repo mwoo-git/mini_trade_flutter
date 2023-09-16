@@ -6,7 +6,7 @@
         </intent>
     </queries>
     <application
-        android:label="mini_trade_flutter"
+        android:label="미니체결"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity
