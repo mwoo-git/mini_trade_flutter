@@ -37,7 +37,7 @@ class TradeListViewModel extends GetxController {
       (vm) async {
         if (vm != null) {
           tradelist.insert(0, vm);
-          playSoundOrVibrateIfPossible(vm.amounInt);
+          playSoundOrVibrateIfPossible(vm.amounInt, vm.ticker.trade);
         }
         if (tradelist.length > 15) {
           tradelist.removeLast();
@@ -72,7 +72,7 @@ class TradeListViewModel extends GetxController {
     });
   }
 
-  playSoundOrVibrateIfPossible(int amount) async {
+  playSoundOrVibrateIfPossible(int amount, bool? isSell) async {
     if (amount >= specificAmount && MainTabView.currentIndex.value == 1) {
       switch (await SoundMode.ringerModeStatus) {
         case RingerModeStatus.silent:
@@ -82,9 +82,10 @@ class TradeListViewModel extends GetxController {
             Vibration.vibrate();
           }
         case RingerModeStatus.normal:
-          if (useSound) {
+          if (useSound && isSell != null) {
             await player.stop();
-            await player.play(AssetSource('sounds/01.wav'));
+            await player.play(
+                AssetSource(isSell ? 'sounds/sell.wav' : 'sounds/buy.wav'));
           }
         default:
           break;
