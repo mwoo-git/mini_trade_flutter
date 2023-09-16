@@ -53,7 +53,7 @@
 	
 	<!--구글 광고 ID-->
 	<key>GADApplicationIdentifier</key>
-    <string>ca-app-pub-9927157586283098~5535526658</string> 
+    <string>ca-app-pub-1296116559995152~9159086630</string> 
 
 	<!--url_launcher-->
 	 <key>LSApplicationQueriesSchemes</key>

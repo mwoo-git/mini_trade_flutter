@@ -50,21 +50,25 @@ class _CoinListViewState extends State<CoinListView> {
       if (vm.coinlist.isEmpty) {
         return const ProgressView();
       } else {
-        return ListView.builder(
-          itemCount: vm.coinlist.length + 1,
-          itemBuilder: (context, index) {
-            if (index == 0) {
-              // 첫 번째 아이템에 광고를 추가
-              return BannerAdWidget(bannerAd: bannerAd).paddingOnly(bottom: 15);
-            } else if (index == 1) {
-              // 두 번째 아이템에 리스트 헤더를 추가
-              return listHeader.paddingOnly(left: 17, right: 21);
-            } else {
-              // 나머지 리스트 아이템 처리
-              final ticker = vm.coinlist[index - 2]; // -2를 해서 올바른 데이터 인덱스로 변환
-              return listTileView(ticker, context);
-            }
-          },
+        return SingleChildScrollView(
+          child: Column(
+            children: [
+              BannerAdWidget(bannerAd: bannerAd).paddingOnly(bottom: 15),
+              ListView.builder(
+                itemCount: vm.coinlist.length + 1,
+                shrinkWrap: true,
+                primary: false,
+                itemBuilder: (context, index) {
+                  if (index == 0) {
+                    return listHeader.paddingOnly(left: 17, right: 21);
+                  } else {
+                    final ticker = vm.coinlist[index - 1];
+                    return listTileView(ticker, context);
+                  }
+                },
+              ),
+            ],
+          ),
         );
       }
     });

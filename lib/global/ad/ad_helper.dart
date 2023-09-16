@@ -5,7 +5,7 @@ export 'package:google_mobile_ads/google_mobile_ads.dart';
 
 class AdHelper {
   static String androidId = 'ca-app-pub-9927157586283098/7020988396';
-  static String iosId = 'ca-app-pub-9927157586283098/5874631523';
+  static String iosId = 'ca-app-pub-1296116559995152/7013899908';
   static String androidTestId = 'ca-app-pub-3940256099942544/6300978111';
   static String iosTestId = 'ca-app-pub-3940256099942544/2934735716';
 

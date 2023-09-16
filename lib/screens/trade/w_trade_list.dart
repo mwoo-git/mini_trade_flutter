@@ -62,24 +62,28 @@ class _TradeListViewState extends State<TradeListView> {
   Widget build(BuildContext context) {
     return Obx(() {
       final vm = Get.find<TradeListViewModel>();
-      return ListView.builder(
-        reverse: false,
-        itemCount: vm.tradelist.length + 2,
-        itemBuilder: (context, index) {
-          if (index == 0) {
-            // 첫 번째 아이템에 광고를 추가
-            return BannerAdWidget(bannerAd: bannerAd).paddingOnly(bottom: 15);
-          } else if (index == 1) {
-            // 두 번째 아이템에 리스트 헤더를 추가
-            return vm.tradelist.isEmpty
-                ? const EmptyListView()
-                : listHeader.paddingOnly(left: 18, right: 21);
-          } else {
-            // 나머지 리스트 아이템 처리
-            final ticker = vm.tradelist[index - 2];
-            return listTileView(ticker);
-          }
-        },
+      return SingleChildScrollView(
+        child: Column(
+          children: [
+            BannerAdWidget(bannerAd: bannerAd).paddingOnly(bottom: 15),
+            ListView.builder(
+              shrinkWrap: true,
+              primary: false,
+              reverse: false,
+              itemCount: vm.tradelist.length + 1,
+              itemBuilder: (context, index) {
+                if (index == 0) {
+                  return vm.tradelist.isEmpty
+                      ? const EmptyListView()
+                      : listHeader.paddingOnly(left: 18, right: 21);
+                } else {
+                  final ticker = vm.tradelist[index - 1];
+                  return listTileView(ticker);
+                }
+              },
+            ),
+          ],
+        ),
       );
     });
   }
