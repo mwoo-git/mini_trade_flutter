@@ -25,7 +25,7 @@ class BinanceWebSocketService extends GetxService {
   static final RxString currentCoin = RxString('BTCUSDT');
   static final RxInt userAmount = Prefs.amount.get().obs;
 
-  late Isolate _isolate;
+  static late Isolate _isolate;
   late ReceivePort? receivePort;
 
   @override
@@ -51,12 +51,12 @@ class BinanceWebSocketService extends GetxService {
     );
   }
 
-  void closeIsolate() {
+  static void closeIsolate() {
     _isolate.kill(priority: Isolate.immediate);
     isConnected.value = false;
   }
 
-  Future<void> configureIsolate() async {
+  static Future<void> configureIsolate() async {
     final receivePort = ReceivePort();
     final params = IsolateParameters(
         receivePort.sendPort, currentCoin.value, userAmount.value);

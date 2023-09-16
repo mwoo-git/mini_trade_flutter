@@ -116,7 +116,7 @@ class _TradeListViewState extends State<TradeListView> {
                   ? TextDecoration.underline
                   : null,
               decorationColor: AppColors.getTradeColor(ticker.ticker.trade),
-              fontWeight: ticker.amounInt > 100000 ? FontWeight.bold : null,
+              fontWeight: isUnderline(ticker.amounInt) ? FontWeight.bold : null,
             ),
           ),
         ],
