@@ -30,7 +30,7 @@ class _AppState extends State<App> with WidgetsBindingObserver {
     return CustomThemeApp(
       child: Builder(builder: (context) {
         return GetMaterialApp(
-          debugShowCheckedModeBanner: false,
+          debugShowCheckedModeBanner: true,
           theme: context.themeType.themeData,
           home: MainTabView(),
         );

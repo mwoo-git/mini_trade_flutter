@@ -12,6 +12,7 @@ import '../v_main_tab.dart';
 
 class TradeListView extends StatefulWidget {
   const TradeListView({super.key});
+  static Rx<bool> onAdLoad = false.obs;
 
   @override
   State<TradeListView> createState() => _TradeListViewState();
@@ -24,6 +25,7 @@ class TradeListView extends StatefulWidget {
 
 class _TradeListViewState extends State<TradeListView> {
   late BannerAd bannerAd;
+
   bool useUnderline = Prefs.underline.get();
   int specificAmount = Prefs.specificAmount.get();
 
@@ -36,8 +38,7 @@ class _TradeListViewState extends State<TradeListView> {
   }
 
   configureBannerAd() {
-    bannerAd = AdHelper.configureBannerAd();
-    bannerAd.load();
+    bannerAd = AdHelper.configureBannerAd(AdType.tradelist);
   }
 
   observer() {
@@ -65,7 +66,8 @@ class _TradeListViewState extends State<TradeListView> {
       return SingleChildScrollView(
         child: Column(
           children: [
-            BannerAdWidget(bannerAd: bannerAd).paddingOnly(bottom: 15),
+            if (TradeListView.onAdLoad.value)
+              BannerAdWidget(bannerAd: bannerAd).paddingOnly(bottom: 15),
             ListView.builder(
               shrinkWrap: true,
               primary: false,

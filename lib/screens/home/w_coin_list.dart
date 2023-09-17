@@ -13,6 +13,8 @@ import '../trade/w_trade_list.dart';
 class CoinListView extends StatefulWidget {
   const CoinListView({super.key});
 
+  static Rx<bool> onAdLoad = false.obs;
+
   @override
   State<CoinListView> createState() => _CoinListViewState();
 
@@ -33,8 +35,7 @@ class _CoinListViewState extends State<CoinListView> {
   }
 
   configureBannerAd() {
-    bannerAd = AdHelper.configureBannerAd();
-    bannerAd.load();
+    bannerAd = AdHelper.configureBannerAd(AdType.coinlist);
   }
 
   observer() {
@@ -53,14 +54,15 @@ class _CoinListViewState extends State<CoinListView> {
         return SingleChildScrollView(
           child: Column(
             children: [
-              BannerAdWidget(bannerAd: bannerAd).paddingOnly(bottom: 15),
+              if (CoinListView.onAdLoad.value)
+                BannerAdWidget(bannerAd: bannerAd).paddingOnly(bottom: 15),
               ListView.builder(
                 itemCount: vm.coinlist.length + 1,
                 shrinkWrap: true,
                 primary: false,
                 itemBuilder: (context, index) {
                   if (index == 0) {
-                    return listHeader.paddingOnly(left: 17, right: 21);
+                    return listHeader.paddingOnly(left: 15, right: 21);
                   } else {
                     final ticker = vm.coinlist[index - 1];
                     return listTileView(ticker, context);

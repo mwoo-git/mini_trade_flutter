@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mini_trade_flutter/global/api/binance_socket.dart';
-import 'package:mini_trade_flutter/global/dart/extension/context_extension.dart';
 import 'package:mini_trade_flutter/screens/settings/v_settings.dart';
 import 'package:mini_trade_flutter/screens/trade/w_trade_list.dart';
-import 'package:velocity_x/velocity_x.dart';
 
 import 'w_connect_icon.dart';
 
