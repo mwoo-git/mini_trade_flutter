@@ -18,16 +18,12 @@
 	<string>mini_trade_flutter</string>
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
-
-	<!--버전-->
 	<key>CFBundleShortVersionString</key>
 	<string>1.0.2</string>
-	<!--빌드-->
-	<key>CFBundleVersion</key>
-	<string>3</string>
-
 	<key>CFBundleSignature</key>
 	<string>????</string>
+	<key>CFBundleVersion</key>
+	<string>3</string>
 	<key>GADApplicationIdentifier</key>
 	<string>ca-app-pub-1296116559995152~9159086630</string>
 	<key>LSApplicationQueriesSchemes</key>
@@ -246,14 +242,10 @@
 	<false/>
 	<key>UISupportedInterfaceOrientations</key>
 	<array>
-		<string>UIInterfaceOrientationLandscapeLeft</string>
-		<string>UIInterfaceOrientationLandscapeRight</string>
 		<string>UIInterfaceOrientationPortrait</string>
 	</array>
 	<key>UISupportedInterfaceOrientations~ipad</key>
 	<array>
-		<string>UIInterfaceOrientationLandscapeLeft</string>
-		<string>UIInterfaceOrientationLandscapeRight</string>
 		<string>UIInterfaceOrientationPortraitUpsideDown</string>
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
