@@ -15,7 +15,7 @@ class TradeView extends StatefulWidget {
 }
 
 class _TradeViewState extends State<TradeView> {
-  String curruntCoin = 'BTCUSDT';
+  String curruntCoin = 'BTC';
 
   @override
   void initState() {
@@ -34,7 +34,7 @@ class _TradeViewState extends State<TradeView> {
   void obserber() {
     ever(BinanceWebSocketService.currentCoin, (coin) {
       setState(() {
-        curruntCoin = coin;
+        curruntCoin = coin.replaceFirst('USDT', '');
       });
     });
   }
