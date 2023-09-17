@@ -7,4 +7,7 @@ class DarkAppColors extends AbstractThemeColors {
 
   @override
   Color get textColor => Colors.white;
+
+  @override
+  Color get background => Colors.black;
 }

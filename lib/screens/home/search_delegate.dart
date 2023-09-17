@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mini_trade_flutter/global/dart/extension/context_extension.dart';
 import 'package:mini_trade_flutter/screens/home/vm_coin_list.dart';
 import '../../global/constant/app_colors.dart';
 import '../trade/w_trade_list.dart';
@@ -9,33 +10,29 @@ class CoinSearchDelegate extends SearchDelegate {
   CoinSearchDelegate(this.vm);
 
   @override
+  TextInputType? get keyboardType => TextInputType.text;
+
+  @override
   String? get searchFieldLabel => '심볼 검색';
 
   @override
   ThemeData appBarTheme(BuildContext context) {
     final theme = Theme.of(context);
-    final brightness = theme.brightness;
-    final isDarkTheme = brightness == Brightness.dark;
 
     return theme.copyWith(
-      appBarTheme: AppBarTheme(
-        backgroundColor: isDarkTheme
-            ? Colors.black.withOpacity(0)
-            : Colors.white, // 검색바 배경색 조정
+      appBarTheme: const AppBarTheme(
+        backgroundColor: Colors.transparent,
       ),
-      inputDecorationTheme: InputDecorationTheme(
-        hintStyle: TextStyle(
-          color: isDarkTheme ? Colors.white : Colors.black, // 힌트 텍스트 색상 조정
-        ),
-        enabledBorder: const UnderlineInputBorder(
+      inputDecorationTheme: const InputDecorationTheme(
+        enabledBorder: UnderlineInputBorder(
           borderSide: BorderSide(color: Colors.transparent),
         ),
-        focusedBorder: const UnderlineInputBorder(
+        focusedBorder: UnderlineInputBorder(
           borderSide: BorderSide(color: Colors.transparent),
         ),
       ),
       textSelectionTheme: TextSelectionThemeData(
-        cursorColor: isDarkTheme ? Colors.white : Colors.black,
+        cursorColor: context.appColors.textColor,
       ),
     );
   }

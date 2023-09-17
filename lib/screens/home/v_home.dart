@@ -11,14 +11,17 @@ class HomeView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: appBar(context),
-      body: const CoinListView(),
+    return SafeArea(
+      child: Scaffold(
+        appBar: appBar(context),
+        body: const CoinListView(),
+      ),
     );
   }
 
   AppBar appBar(BuildContext context) {
     return AppBar(
+      backgroundColor: Colors.transparent,
       leading: sortPopupMenuButton,
       title: const Text('바이낸스 선물'),
       actions: [

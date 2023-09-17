@@ -7,4 +7,7 @@ class LightAppColors extends AbstractThemeColors {
 
   @override
   Color get textColor => Colors.black;
+
+  @override
+  Color get background => Colors.white;
 }

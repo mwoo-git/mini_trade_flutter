@@ -26,7 +26,7 @@ class AdHelper {
   static BannerAd configureBannerAd(AdType type) {
     final bannerAd = BannerAd(
       adUnitId: AdHelper.bannerAdUnitId,
-      size: AdSize.banner,
+      size: AdSize.largeBanner,
       request: const AdRequest(),
       listener: BannerAdListener(
         onAdLoaded: (Ad ad) {

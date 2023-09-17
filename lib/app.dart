@@ -42,7 +42,7 @@ class _AppState extends State<App> with WidgetsBindingObserver {
   void didChangeAppLifecycleState(AppLifecycleState state) {
     switch (state) {
       case AppLifecycleState.resumed:
-        if (!BinanceWebSocketService.isConnected.value) {
+        if (BinanceWebSocketService.isConnected.value == false) {
           BinanceWebSocketService.configureIsolate();
         }
         break;

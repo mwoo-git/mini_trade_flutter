@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:mini_trade_flutter/global/dart/extension/context_extension.dart';
 import 'package:mini_trade_flutter/screens/settings/v_specific_amount_settings.dart';
 import '../../global/data/prefs.dart';
 import '../common/w_switch.dart';
@@ -44,7 +45,10 @@ class _SettingsViewState extends State<SettingsView> {
         NumberFormat('#,##0').format(Prefs.specificAmount.get());
 
     return Scaffold(
-      appBar: AppBar(title: const Text('설정')),
+      appBar: AppBar(
+        title: const Text('설정'),
+        backgroundColor: Colors.transparent,
+      ),
       body: ListView(children: [
         headerText('앱 설정'),
         themeChangeTile(context),

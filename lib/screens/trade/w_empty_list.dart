@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:mini_trade_flutter/global/api/binance_socket.dart';
+import 'package:mini_trade_flutter/global/data/prefs.dart';
+import 'package:mini_trade_flutter/screens/settings/v_specific_amount_settings.dart';
 
 class EmptyListView extends StatelessWidget {
   const EmptyListView({super.key});
@@ -10,8 +12,7 @@ class EmptyListView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Obx(() {
       final isConnected = BinanceWebSocketService.isConnected.value;
-      final amount = NumberFormat("#,###")
-          .format(BinanceWebSocketService.userAmount.value);
+      final amount = NumberFormat("#,###").format(Prefs.amount.get());
       return Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [

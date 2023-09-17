@@ -26,6 +26,7 @@ class _EditAmountViewState extends State<EditAmountView> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
+          backgroundColor: Colors.transparent,
           title: const Text('순간거래대금 조회조건'),
           actions: [
             doneButton,

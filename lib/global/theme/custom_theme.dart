@@ -46,13 +46,14 @@ ThemeData lightTheme = ThemeData(
 
 ThemeData darkTheme = ThemeData(
   useMaterial3: true,
-  colorScheme: const ColorScheme.dark(
-    primary: Colors.black,
-    secondary: Colors.white,
-  ),
   bottomNavigationBarTheme: const BottomNavigationBarThemeData(
     showSelectedLabels: false,
     showUnselectedLabels: false,
     selectedItemColor: Colors.white,
+  ),
+  colorScheme: const ColorScheme.dark(
+    primary: Colors.black,
+    secondary: Colors.white,
+    background: Colors.black,
   ),
 );

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:mini_trade_flutter/global/dart/extension/context_extension.dart';
 import 'package:mini_trade_flutter/global/data/prefs.dart';
 
 class EditSpecificAmountView extends StatefulWidget {
@@ -29,6 +30,7 @@ class _EditEditSpecificAmountViewState extends State<EditSpecificAmountView> {
     final amount = NumberFormat('#,##0').format(Prefs.amount.get());
     return Scaffold(
         appBar: AppBar(
+          backgroundColor: Colors.transparent,
           title: const Text('특정거래대금 조건 설정'),
           actions: [
             doneButton,

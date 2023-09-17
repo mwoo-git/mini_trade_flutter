@@ -6,6 +6,7 @@ abstract class AbstractThemeColors {
   const AbstractThemeColors();
 
   Color get textColor;
+  Color get background;
 
   // Color get veryBrightGrey => AppColors.brightGrey;
 

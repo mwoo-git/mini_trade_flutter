@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mini_trade_flutter/global/api/binance_socket.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 class ConnectIconView extends StatefulWidget {
   const ConnectIconView({super.key});
