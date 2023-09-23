@@ -18,7 +18,7 @@ class Prefs {
   static final specificAmount =
       RxPreferenceItem<int, RxInt>('specificAmount', 100000);
   static final sound = PreferenceItem<bool>('sound', true);
-  static final vibrate = PreferenceItem<bool>('vibrate', false);
+  static final vibrate = PreferenceItem<bool>('vibrate', true);
 
   static final didAmountChanged = RxBool(false);
   static final didBinanceThemeChanged = RxBool(false);

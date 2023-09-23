@@ -3,11 +3,18 @@ import 'package:get/get.dart';
 import 'package:mini_trade_flutter/screens/home/search_delegate.dart';
 import 'package:mini_trade_flutter/screens/home/vm_coin_list.dart';
 import 'package:mini_trade_flutter/screens/home/w_coin_list.dart';
-import 'package:mini_trade_flutter/screens/home/w_refresh_button.dart';
 
-class HomeView extends StatelessWidget {
+class HomeView extends StatefulWidget {
   const HomeView({super.key});
+
+  @override
+  State<HomeView> createState() => _HomeViewState();
+}
+
+class _HomeViewState extends State<HomeView> {
   get vm => Get.find<CoinListViewModel>();
+
+  var selectedSort = SortCoins.volume;
 
   @override
   Widget build(BuildContext context) {
@@ -23,10 +30,13 @@ class HomeView extends StatelessWidget {
     return AppBar(
       backgroundColor: Colors.transparent,
       leading: sortPopupMenuButton,
-      title: const Text('바이낸스 선물'),
+      title: const Text(
+        '미니체결',
+        style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+      ),
+      centerTitle: true,
       actions: [
         showSearchButton(context),
-        const RefreshButton(),
       ],
     );
   }

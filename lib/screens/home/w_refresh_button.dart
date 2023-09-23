@@ -21,7 +21,8 @@ class _RefreshButtonState extends State<RefreshButton> {
     return IconButton(
       icon: isCountingDown ? Text('$countdown') : const Icon(Icons.refresh),
       onPressed: () {
-        isRefreshing ? null : startCountdown();
+        // isRefreshing ? null : startCountdown();
+        vm.fetchTickers();
       },
     );
   }

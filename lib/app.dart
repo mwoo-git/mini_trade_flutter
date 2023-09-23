@@ -3,6 +3,9 @@ import 'package:get/get.dart';
 import 'package:mini_trade_flutter/global/api/binance_socket.dart';
 import 'package:mini_trade_flutter/global/dart/extension/context_extension.dart';
 import 'package:mini_trade_flutter/global/theme/custom_theme_app.dart';
+import 'package:mini_trade_flutter/screens/home/vm_coin_list.dart';
+import 'package:mini_trade_flutter/screens/trade/vm_trade_list.dart';
+import 'package:velocity_x/velocity_x.dart';
 import 'screens/v_main_tab.dart';
 
 class App extends StatefulWidget {
@@ -42,8 +45,10 @@ class _AppState extends State<App> with WidgetsBindingObserver {
   void didChangeAppLifecycleState(AppLifecycleState state) {
     switch (state) {
       case AppLifecycleState.resumed:
+        CoinListViewModel.fetchTicker.value.toggle();
         if (BinanceWebSocketService.isConnected.value == false) {
           BinanceWebSocketService.configureIsolate();
+          TradeListViewModel.clearList();
         }
         break;
       case AppLifecycleState.inactive:

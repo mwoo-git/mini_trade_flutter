@@ -26,10 +26,21 @@ class CoinListViewModel extends GetxController {
 
   var sort = SortCoins.volume;
 
+  DateTime? lastExecutionTime;
+
+  static var fetchTicker = RxBool(false);
+
   @override
   void onInit() {
+    observer();
     fetchCoins();
     super.onInit();
+  }
+
+  observer() {
+    ever(fetchTicker, (value) {
+      fetchTickers();
+    });
   }
 
   Future<void> fetchCoins() async {
@@ -42,15 +53,24 @@ class CoinListViewModel extends GetxController {
   }
 
   Future<void> fetchTickers() async {
-    if (coins != null) {
-      try {
-        final tickers = await compute(fetchTickersIsolate, coins);
-        this.tickers = tickers;
-      } catch (e) {
-        print("DEBUG: CoinListViewModel.fetchTickers() Failed. $e");
+    final currentTime = DateTime.now();
+
+    if (lastExecutionTime == null ||
+        currentTime.difference(lastExecutionTime!) >=
+            const Duration(seconds: 15)) {
+      print('DEBUG: FetchTickers()');
+      lastExecutionTime = currentTime;
+
+      if (coins != null) {
+        try {
+          final tickers = await compute(fetchTickersIsolate, coins);
+          this.tickers = tickers;
+        } catch (e) {
+          print("DEBUG: CoinListViewModel.fetchTickers() Failed. $e");
+        }
+      } else {
+        fetchCoins();
       }
-    } else {
-      fetchCoins();
     }
   }
 

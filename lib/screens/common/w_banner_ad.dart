@@ -13,6 +13,6 @@ class BannerAdWidget extends StatelessWidget {
       alignment: Alignment.center,
       height: 50.0,
       child: AdWidget(ad: bannerAd),
-    ).paddingSymmetric(horizontal: 15);
+    ).paddingSymmetric(horizontal: 15, vertical: 8);
   }
 }

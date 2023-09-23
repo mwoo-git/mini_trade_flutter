@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:mini_trade_flutter/global/api/binance_socket.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:mini_trade_flutter/screens/trade/vm_trade_list.dart';
 
 class ConnectIconView extends StatefulWidget {
   const ConnectIconView({super.key});
@@ -30,11 +32,17 @@ class _ConnectIconViewState extends State<ConnectIconView> {
   @override
   Widget build(BuildContext context) {
     return IconButton(
-      onPressed: () {},
-      icon: Icon(
-        isConnected ? Icons.rss_feed : Icons.error,
-        color: isConnected ? Colors.green : Colors.orange,
-      ),
+      onPressed: () {
+        if (isConnected) {
+          BinanceWebSocketService.closeIsolate();
+          TradeListViewModel.clearList();
+        } else {
+          BinanceWebSocketService.closeIsolate();
+          BinanceWebSocketService.configureIsolate();
+        }
+        HapticFeedback.lightImpact();
+      },
+      icon: Icon(isConnected ? Icons.pause : Icons.play_arrow),
     );
   }
 }

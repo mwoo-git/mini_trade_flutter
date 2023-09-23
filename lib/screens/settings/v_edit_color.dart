@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:mini_trade_flutter/global/dart/extension/context_extension.dart';
 
 import '../../global/data/prefs.dart';
 import '../common/w_switch.dart';
@@ -19,7 +18,7 @@ class _EditColorViewState extends State<EditColorView> {
     const description = '바이낸스 테마 사용 시 매수는 초록색, 매도는 빨간색으로 보여집니다.';
     return Scaffold(
         appBar: AppBar(
-          backgroundColor: Colors.transparent,
+          backgroundColor: const Color.fromARGB(0, 255, 255, 255),
           title: const Text(title),
         ),
         body: Column(

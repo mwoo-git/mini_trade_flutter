@@ -61,8 +61,9 @@ class _TradeListViewState extends State<TradeListView> {
 
   @override
   Widget build(BuildContext context) {
+    Get.find<TradeListViewModel>();
     return Obx(() {
-      final vm = Get.find<TradeListViewModel>();
+      final list = TradeListViewModel.tradelist;
       return SingleChildScrollView(
         child: Column(
           children: [
@@ -72,14 +73,14 @@ class _TradeListViewState extends State<TradeListView> {
               shrinkWrap: true,
               primary: false,
               reverse: false,
-              itemCount: vm.tradelist.length + 1,
+              itemCount: list.length + 1,
               itemBuilder: (context, index) {
                 if (index == 0) {
-                  return vm.tradelist.isEmpty
+                  return list.isEmpty
                       ? const EmptyListView()
                       : listHeader.paddingOnly(left: 18, right: 21);
                 } else {
-                  final ticker = vm.tradelist[index - 1];
+                  final ticker = list[index - 1];
                   return listTileView(ticker);
                 }
               },

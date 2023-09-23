@@ -43,7 +43,24 @@ class _TradeViewState extends State<TradeView> {
     return AppBar(
       backgroundColor: Colors.transparent,
       leading: const ConnectIconView(),
-      title: Text('$curruntCoin 미니체결'),
+      title: RichText(
+        text: TextSpan(
+          text: curruntCoin,
+          style: TextStyle(
+              fontSize: 20.0,
+              color: context.appColors.textColor,
+              fontWeight: FontWeight.bold),
+          children: const <TextSpan>[
+            TextSpan(
+              text: '  / USDT',
+              style: TextStyle(
+                fontSize: 14.0,
+                color: Colors.grey,
+              ),
+            ),
+          ],
+        ),
+      ),
       actions: [
         IconButton(
           onPressed: () {

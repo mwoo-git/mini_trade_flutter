@@ -85,12 +85,16 @@ class CoinSearchDelegate extends SearchDelegate {
         final ticker = list[index];
         return ListTile(
           onTap: () => listTileTabed(context, ticker.market),
-          title: Text(ticker.symbol),
+          title: Text(
+            ticker.symbol,
+            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+          ),
           trailing: Text(
             ticker.changeRate,
             style: TextStyle(
-              color: AppColors.getTradeColor(ticker.ticker.changeRate),
-            ),
+                fontSize: 14,
+                color: AppColors.getTradeColor(ticker.ticker.changeRate),
+                fontWeight: FontWeight.bold),
           ),
           // You can add more details here if needed
         );

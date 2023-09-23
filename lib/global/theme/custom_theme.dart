@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import 'color/abs_theme_colors.dart';
 import 'color/dark_app_colors.dart';
@@ -42,6 +43,7 @@ ThemeData lightTheme = ThemeData(
     showUnselectedLabels: false,
     selectedItemColor: Colors.black,
   ),
+  appBarTheme: const AppBarTheme(systemOverlayStyle: SystemUiOverlayStyle.dark),
 );
 
 ThemeData darkTheme = ThemeData(
@@ -56,4 +58,6 @@ ThemeData darkTheme = ThemeData(
     secondary: Colors.white,
     background: Colors.black,
   ),
+  appBarTheme:
+      const AppBarTheme(systemOverlayStyle: SystemUiOverlayStyle.light),
 );

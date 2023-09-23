@@ -1,3 +1,4 @@
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:mini_trade_flutter/global/api/binance_socket.dart';
 import 'package:mini_trade_flutter/global/data/prefs.dart';
@@ -6,29 +7,21 @@ import 'package:audioplayers/audioplayers.dart';
 import 'package:mini_trade_flutter/screens/v_main_tab.dart';
 import 'package:sound_mode/sound_mode.dart';
 import 'package:sound_mode/utils/ringer_mode_statuses.dart';
-import 'package:vibration/vibration.dart';
 
 class TradeListViewModel extends GetxController {
   final BinanceWebSocketService socket = Get.find<BinanceWebSocketService>();
-  RxList<TradeTileViewModel> tradelist = <TradeTileViewModel>[].obs;
+  static RxList<TradeTileViewModel> tradelist = <TradeTileViewModel>[].obs;
 
   final player = AudioPlayer();
   int specificAmount = Prefs.specificAmount.get();
   bool useSound = Prefs.sound.get();
   bool useVibrate = Prefs.vibrate.get();
 
-  bool? hasVibrator;
-
   @override
   void onInit() {
     super.onInit();
 
     observer();
-    configure();
-  }
-
-  configure() async {
-    hasVibrator = await Vibration.hasVibrator();
   }
 
   observer() async {
@@ -78,9 +71,7 @@ class TradeListViewModel extends GetxController {
         case RingerModeStatus.silent:
           break;
         case RingerModeStatus.vibrate:
-          if (useVibrate) {
-            Vibration.vibrate();
-          }
+          HapticFeedback.mediumImpact();
         case RingerModeStatus.normal:
           if (useSound && isSell != null) {
             await player.stop();
@@ -93,7 +84,7 @@ class TradeListViewModel extends GetxController {
     }
   }
 
-  clearList() {
+  static clearList() {
     tradelist.value = [];
   }
 }
