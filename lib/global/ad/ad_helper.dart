@@ -21,7 +21,7 @@ class AdHelper {
 
   static String releaseAdUnitId = Platform.isAndroid ? androidId : iosId;
 
-  static String bannerAdUnitId = !kReleaseMode ? releaseAdUnitId : testAdUnitId;
+  static String bannerAdUnitId = kReleaseMode ? releaseAdUnitId : testAdUnitId;
 
   static BannerAd configureBannerAd(AdType type) {
     final bannerAd = BannerAd(

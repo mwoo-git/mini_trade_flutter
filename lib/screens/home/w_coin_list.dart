@@ -6,7 +6,6 @@ import 'package:mini_trade_flutter/screens/common/w_banner_ad.dart';
 import 'package:mini_trade_flutter/screens/common/w_progress.dart';
 import 'package:mini_trade_flutter/screens/home/vm_coin_list.dart';
 import 'package:mini_trade_flutter/screens/home/vm_ticker.dart';
-import 'package:vibration/vibration.dart';
 import '../../global/ad/ad_helper.dart';
 import '../../global/constant/app_colors.dart';
 import '../../global/data/prefs.dart';
@@ -27,19 +26,12 @@ class CoinListView extends StatefulWidget {
 
 class _CoinListViewState extends State<CoinListView> {
   late BannerAd bannerAd;
-  bool? hasVibrator;
 
   @override
   void initState() {
     observer();
     configureBannerAd();
-    configureVibrator();
-
     super.initState();
-  }
-
-  configureVibrator() async {
-    hasVibrator = await Vibration.hasVibrator();
   }
 
   configureBannerAd() {

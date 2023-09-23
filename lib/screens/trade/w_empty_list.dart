@@ -3,7 +3,6 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:mini_trade_flutter/global/api/binance_socket.dart';
 import 'package:mini_trade_flutter/global/data/prefs.dart';
-import 'package:mini_trade_flutter/screens/settings/v_specific_amount_settings.dart';
 
 class EmptyListView extends StatelessWidget {
   const EmptyListView({super.key});

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
-import 'package:mini_trade_flutter/global/dart/extension/context_extension.dart';
 import 'package:mini_trade_flutter/global/data/prefs.dart';
 import 'package:mini_trade_flutter/screens/common/w_switch.dart';
 import 'package:mini_trade_flutter/screens/settings/v_edit_specific_amount.dart';
