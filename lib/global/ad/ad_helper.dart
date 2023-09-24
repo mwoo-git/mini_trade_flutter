@@ -11,7 +11,7 @@ enum AdType {
 }
 
 class AdHelper {
-  static String androidId = 'ca-app-pub-9927157586283098/7020988396';
+  static String androidId = 'ca-app-pub-1296116559995152/1019895676';
   static String iosId = 'ca-app-pub-1296116559995152/4078591288';
 
   static String androidTestId = 'ca-app-pub-3940256099942544/6300978111';
@@ -26,7 +26,7 @@ class AdHelper {
   static BannerAd configureBannerAd(AdType type) {
     final bannerAd = BannerAd(
       adUnitId: AdHelper.bannerAdUnitId,
-      size: AdSize.largeBanner,
+      size: AdSize.banner,
       request: const AdRequest(),
       listener: BannerAdListener(
         onAdLoaded: (Ad ad) {

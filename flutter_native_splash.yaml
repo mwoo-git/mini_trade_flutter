@@ -25,6 +25,7 @@ flutter_native_splash:
   # It must be a png file. It is supported for Android, iOS and the Web.  For Android 12,
   # see the Android 12 section below.
   #branding: assets/dart.png
+  text: "미니체결" 
 
   # To position the branding image at the bottom of the screen you can use bottom, bottomRight,
   # and bottomLeft. The default values is bottom if not specified or specified something else.
