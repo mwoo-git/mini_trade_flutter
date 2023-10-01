@@ -12,7 +12,7 @@
     <application
         android:label="미니체결"
         android:name="${applicationName}"
-        android:icon="@mipmap/ic_launcher">
+        android:icon="@mipmap/mini_icon">
         <activity
             android:name=".MainActivity"
             android:exported="true"
