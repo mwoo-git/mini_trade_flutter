@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:mini_trade_flutter/global/api/binance_rest.dart';
 import 'package:mini_trade_flutter/screens/home/search_delegate.dart';
 import 'package:mini_trade_flutter/screens/home/vm_coin_list.dart';
+import 'package:mini_trade_flutter/screens/home/w_api_error.dart';
 import 'package:mini_trade_flutter/screens/home/w_coin_list.dart';
 
 class HomeView extends StatefulWidget {
@@ -16,12 +18,29 @@ class _HomeViewState extends State<HomeView> {
 
   var selectedSort = SortCoins.volume;
 
+  RestApiStatus apiStatus = RestApiStatus.none;
+
+  @override
+  void initState() {
+    observer();
+    super.initState();
+  }
+
+  observer() {
+    ever(BinanceRestService.apiStatus, (value) {
+      setState(() {
+        apiStatus = value;
+      });
+    });
+
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
         appBar: appBar(context),
-        body: const CoinListView(),
+        body: apiStatus == RestApiStatus.error ? const ApiErrorView() : const CoinListView(),
       ),
     );
   }

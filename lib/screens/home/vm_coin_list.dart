@@ -28,6 +28,7 @@ class CoinListViewModel extends GetxController {
 
   DateTime? lastExecutionTime;
 
+  static var fetchCoin = RxBool(false);
   static var fetchTicker = RxBool(false);
 
   @override
@@ -38,6 +39,10 @@ class CoinListViewModel extends GetxController {
   }
 
   observer() {
+    ever(fetchCoin, (value) {
+      fetchCoins();
+    });
+
     ever(fetchTicker, (value) {
       fetchTickers();
     });
@@ -46,10 +51,10 @@ class CoinListViewModel extends GetxController {
   Future<void> fetchCoins() async {
     try {
       coins = await BinanceRestService.fetchFuturesCoins();
+      BinanceRestService.apiStatus.value = RestApiStatus.success;
       fetchTickers();
-      BinanceRestService.apiStatus.value = ApiStatus.restApiError;
     } catch (error) {
-      BinanceRestService.apiStatus.value = ApiStatus.restApiError;
+      BinanceRestService.apiStatus.value = RestApiStatus.error;
       print("DEBUG: fetchCoins() Failed. $error");
     }
   }

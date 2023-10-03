@@ -45,9 +45,9 @@ class MainTabView extends StatelessWidget {
 
   observer(BuildContext context) {
     ever(BinanceRestService.apiStatus, (value) {
-      if (value == ApiStatus.restApiError) {
+      if (value == RestApiStatus.error) {
         context.showSnackbar('바이낸스 정보를 받아오지 못 했습니다.');
-        BinanceRestService.apiStatus.value = ApiStatus.none;
+        BinanceRestService.apiStatus.value = RestApiStatus.none;
       }
     });
   }

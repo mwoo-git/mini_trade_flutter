@@ -8,13 +8,14 @@ enum ExchangeType {
   futures,
 }
 
-enum ApiStatus {
+enum RestApiStatus {
   none,
-  restApiError
+  error,
+  success,
 }
 
 class BinanceRestService {
-  static Rx<ApiStatus> apiStatus = Rx(ApiStatus.none);
+  static Rx<RestApiStatus> apiStatus = Rx(RestApiStatus.none);
 
   static Future<List<BinanceCoin>> fetchFuturesCoins() async {
     const baseUrl = "https://fapi.binance.com/fapi/v1";
