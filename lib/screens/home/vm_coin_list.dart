@@ -47,7 +47,9 @@ class CoinListViewModel extends GetxController {
     try {
       coins = await BinanceRestService.fetchFuturesCoins();
       fetchTickers();
+      BinanceRestService.apiStatus.value = ApiStatus.restApiError;
     } catch (error) {
+      BinanceRestService.apiStatus.value = ApiStatus.restApiError;
       print("DEBUG: fetchCoins() Failed. $error");
     }
   }

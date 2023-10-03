@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:mini_trade_flutter/global/models/m_binance.dart';
 
@@ -7,7 +8,14 @@ enum ExchangeType {
   futures,
 }
 
+enum ApiStatus {
+  none,
+  restApiError
+}
+
 class BinanceRestService {
+  static Rx<ApiStatus> apiStatus = Rx(ApiStatus.none);
+
   static Future<List<BinanceCoin>> fetchFuturesCoins() async {
     const baseUrl = "https://fapi.binance.com/fapi/v1";
     final url = Uri.parse("$baseUrl/exchangeInfo");
@@ -35,6 +43,8 @@ class BinanceRestService {
         throw Exception("Server Error");
       }
     } catch (error) {
+      
+      
       print("DEBUG: BinanceRestService.fetchFuturesCoins() failed. $error");
       throw error;
     }

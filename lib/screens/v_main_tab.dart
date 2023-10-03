@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:mini_trade_flutter/global/api/binance_rest.dart';
+import 'package:mini_trade_flutter/global/dart/extension/snackbar_extension.dart';
 import 'trade/v_trade.dart';
 import 'home/v_home.dart';
 
@@ -15,6 +17,8 @@ class MainTabView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    observer(context);
+
     return Obx(() => Scaffold(
           body: IndexedStack(
             index: currentIndex.value,
@@ -38,4 +42,15 @@ class MainTabView extends StatelessWidget {
           ),
         ));
   }
+
+  observer(BuildContext context) {
+    ever(BinanceRestService.apiStatus, (value) {
+      if (value == ApiStatus.restApiError) {
+        context.showSnackbar('바이낸스 정보를 받아오지 못 했습니다.');
+        BinanceRestService.apiStatus.value = ApiStatus.none;
+      }
+    });
+  }
+
 }
+

@@ -31,7 +31,7 @@ class _HomeViewState extends State<HomeView> {
       backgroundColor: Colors.transparent,
       leading: sortPopupMenuButton,
       title: const Text(
-        '미니체결1',
+        '미니체결',
         style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
       ),
       centerTitle: true,
