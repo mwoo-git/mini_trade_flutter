@@ -15,9 +15,14 @@ class CustomSwitch extends StatelessWidget {
   Widget build(BuildContext context) {
     if (Theme.of(context).platform == TargetPlatform.android) {
       // 안드로이드 스위치
-      return Switch(
-        value: value,
-        onChanged: onChanged,
+      return Theme(
+        data: ThemeData(),
+        child: Switch(
+          value: value,
+          onChanged: onChanged,
+          activeTrackColor: Colors.green, // 활성 상태의 트랙 색상
+          activeColor: Colors.white, // 활성 상태의 스위치 색상
+        ),
       );
     } else {
       // iOS 스위치 (쿠퍼티노 스위치)
