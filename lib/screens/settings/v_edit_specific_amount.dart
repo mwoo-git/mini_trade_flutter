@@ -29,8 +29,10 @@ class _EditEditSpecificAmountViewState extends State<EditSpecificAmountView> {
     final amount = NumberFormat('#,##0').format(Prefs.amount.get());
     return Scaffold(
         appBar: AppBar(
+          centerTitle: true,
           backgroundColor: Colors.transparent,
-          title: const Text('특정거래대금 조건 설정'),
+          title: const Text('특정거래대금 조건 설정', style: TextStyle(fontSize: 20
+          ),),
           actions: [
             doneButton,
           ],

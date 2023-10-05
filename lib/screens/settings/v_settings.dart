@@ -44,8 +44,9 @@ class _SettingsViewState extends State<SettingsView> {
         NumberFormat('#,##0').format(Prefs.specificAmount.get());
 
     return Scaffold(
-      appBar: AppBar(
+      appBar: AppBar( 
         title: const Text('설정'),
+        centerTitle: true,
         backgroundColor: Colors.transparent,
       ),
       body: ListView(children: [

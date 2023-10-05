@@ -41,6 +41,7 @@ class _TradeViewState extends State<TradeView> {
 
   AppBar appBar(BuildContext context) {
     return AppBar(
+      centerTitle: true,
       backgroundColor: Colors.transparent,
       leading: const ConnectIconView(),
       title: RichText(

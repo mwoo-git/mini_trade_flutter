@@ -33,6 +33,7 @@ class _SpecificAmountSettingViewState extends State<SpecificAmountSettingView> {
     const title = '특정거래대금 설정';
     return Scaffold(
         appBar: AppBar(
+          centerTitle: true,
           title: const Text(title),
           backgroundColor: Colors.transparent,
         ),
