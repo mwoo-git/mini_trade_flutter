@@ -1,4 +1,4 @@
-package minwoo.mini_trade_flutter
+package minwoo.mini_trade
 
 import io.flutter.embedding.android.FlutterActivity
 
