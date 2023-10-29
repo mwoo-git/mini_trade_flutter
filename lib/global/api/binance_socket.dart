@@ -19,12 +19,6 @@ class IsolateParameters {
 class BinanceWebSocketService extends GetxService {
   static final url = Uri.parse('wss://fstream.binance.com/ws');
 
-
-
-
-
-
-  
   static WebSocketChannel? _webSocketChannel;
 
   static final RxBool isConnected = false.obs;
