@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:mini_trade_flutter/global/models/m_binance.dart';
@@ -38,7 +39,7 @@ class BinanceRestService {
                   status: symbol.status,
                 ))
             .toList();
-        print("DEBUG: Fetch ${binanceCoins.length} coins.");
+        debugPrint("DEBUG: Fetch ${binanceCoins.length} coins.");
         return binanceCoins;
       } else {
         throw Exception("Server Error");
@@ -46,8 +47,8 @@ class BinanceRestService {
     } catch (error) {
       
       
-      print("DEBUG: BinanceRestService.fetchFuturesCoins() failed. $error");
-      throw error;
+      debugPrint("DEBUG: BinanceRestService.fetchFuturesCoins() failed. $error");
+      rethrow;
     }
   }
 
@@ -102,7 +103,7 @@ class BinanceRestService {
         tickers.add(ticker);
       }
     } else {
-      print(
+      debugPrint(
           "Error fetching ticker for symbol $symbol: ${response.reasonPhrase}");
     }
 

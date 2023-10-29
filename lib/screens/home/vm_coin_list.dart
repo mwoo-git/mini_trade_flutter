@@ -55,7 +55,7 @@ class CoinListViewModel extends GetxController {
       fetchTickers();
     } catch (error) {
       BinanceRestService.apiStatus.value = RestApiStatus.error;
-      print("DEBUG: fetchCoins() Failed. $error");
+      debugPrint("DEBUG: fetchCoins() Failed. $error");
     }
   }
 
@@ -65,7 +65,7 @@ class CoinListViewModel extends GetxController {
     if (lastExecutionTime == null ||
         currentTime.difference(lastExecutionTime!) >=
             const Duration(seconds: 15)) {
-      print('DEBUG: FetchTickers()');
+      debugPrint('DEBUG: FetchTickers()');
       lastExecutionTime = currentTime;
 
       if (coins != null) {
@@ -73,7 +73,7 @@ class CoinListViewModel extends GetxController {
           final tickers = await compute(fetchTickersIsolate, coins);
           this.tickers = tickers;
         } catch (e) {
-          print("DEBUG: CoinListViewModel.fetchTickers() Failed. $e");
+          debugPrint("DEBUG: CoinListViewModel.fetchTickers() Failed. $e");
         }
       } else {
         fetchCoins();
@@ -119,8 +119,4 @@ class CoinListViewModel extends GetxController {
     updateCoinlist();
   }
 
-  @override
-  void dispose() {
-    super.dispose();
-  }
 }

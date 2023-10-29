@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:isolate';
+import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 import 'package:mini_trade_flutter/global/data/prefs.dart';
 import 'package:mini_trade_flutter/global/models/m_binance.dart';
@@ -96,7 +97,7 @@ class BinanceWebSocketService extends GetxService {
       );
     } catch (e) {
       sendPort.send(false);
-      print('DEBUG: BinanceWebSocketService.connect() failed: $e');
+      debugPrint('DEBUG: BinanceWebSocketService.connect() failed: $e');
     }
   }
 

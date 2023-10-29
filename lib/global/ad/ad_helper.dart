@@ -38,7 +38,7 @@ class AdHelper {
           type == AdType.coinlist
               ? CoinListView.onAdLoad.value = false
               : TradeListView.onAdLoad.value = false;
-          print('DEBUG: 배너 광고 로드 실패. $error');
+          debugPrint('DEBUG: 배너 광고 로드 실패. $error');
         },
       ),
     );

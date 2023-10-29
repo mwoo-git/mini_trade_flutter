@@ -87,7 +87,7 @@ class CoinSearchDelegate extends SearchDelegate {
           onTap: () => listTileTabed(context, ticker.market),
           title: Text(
             ticker.symbol,
-            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+            style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
           ),
           trailing: Text(
             ticker.changeRate,
