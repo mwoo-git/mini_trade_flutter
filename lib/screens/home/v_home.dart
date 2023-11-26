@@ -49,9 +49,9 @@ class _HomeViewState extends State<HomeView> {
     return AppBar(
       backgroundColor: Colors.transparent,
       leading: sortPopupMenuButton,
-      title: const Text(
+      title: Text(
         '미니체결',
-        style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+        style: Theme.of(context).textTheme.titleLarge,
       ),
       centerTitle: true,
       actions: [

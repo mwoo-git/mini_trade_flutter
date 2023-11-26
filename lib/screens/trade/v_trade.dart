@@ -50,7 +50,8 @@ class _TradeViewState extends State<TradeView> {
           style: TextStyle(
               fontSize: 20.0,
               color: context.appColors.textColor,
-              fontWeight: FontWeight.bold),
+              fontWeight: FontWeight.bold,
+              ),
           children: const <TextSpan>[
             TextSpan(
               text: '  / USDT',

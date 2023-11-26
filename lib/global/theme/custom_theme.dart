@@ -27,13 +27,18 @@ enum CustomTheme {
   }
 }
 
+String fontFamily = 'sans';
+
+TextTheme textTheme = TextTheme(
+  titleLarge: TextStyle(fontWeight: FontWeight.bold, fontSize: 20, fontFamily: fontFamily),
+);
+
 MaterialColor primarySwatchColor = Colors.lightBlue;
 
 ThemeData lightTheme = ThemeData(
   useMaterial3: true,
-  // textTheme: GoogleFonts.singleDayTextTheme(
-  //   ThemeData(brightness: Brightness.light).textTheme,
-  // ),
+  textTheme: textTheme,
+  fontFamily: 'sans',
   colorScheme: const ColorScheme.light(
     primary: Colors.white,
     secondary: Colors.black,
@@ -48,6 +53,7 @@ ThemeData lightTheme = ThemeData(
 
 ThemeData darkTheme = ThemeData(
   useMaterial3: true,
+  fontFamily: 'sans',
   bottomNavigationBarTheme: const BottomNavigationBarThemeData(
     showSelectedLabels: false,
     showUnselectedLabels: false,

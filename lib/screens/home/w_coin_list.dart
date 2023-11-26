@@ -47,44 +47,46 @@ class _CoinListViewState extends State<CoinListView> {
   @override
   Widget build(BuildContext context) {
     final vm = Get.find<CoinListViewModel>();
-    return Obx(() {
-      if (vm.coinlist.isEmpty) {
-        return const ProgressView();
-      } else {
-        return RefreshIndicator(
-          color: Colors.grey,
-          onRefresh: () async {
-            HapticFeedback.lightImpact();
-            CoinListViewModel.fetchTicker.toggle();
-            await Future.delayed(const Duration(seconds: 1));
-            HapticFeedback.lightImpact();
-          },
-          child: SingleChildScrollView(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                if (CoinListView.onAdLoad.value)
-                  BannerAdWidget(bannerAd: bannerAd).paddingOnly(bottom: 15),
-                ListView.builder(
-                  itemCount: vm.coinlist.length + 1,
-                  shrinkWrap: true,
-                  primary: false,
-                  itemBuilder: (context, index) {
-                    if (index == 0) {
-                      return listHeader.paddingOnly(
-                          left: 15, top: 10, bottom: 10);
-                    } else {
-                      final ticker = vm.coinlist[index - 1];
-                      return listTileView(ticker, context);
-                    }
-                  },
-                ),
-              ],
+    return Scaffold(
+      body: Obx(() {
+        if (vm.coinlist.isEmpty) {
+          return const ProgressView();
+        } else {
+          return RefreshIndicator(
+            color: Colors.grey,
+            onRefresh: () async {
+              HapticFeedback.lightImpact();
+              CoinListViewModel.fetchTicker.toggle();
+              await Future.delayed(const Duration(seconds: 1));
+              HapticFeedback.lightImpact();
+            },
+            child: SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  if (CoinListView.onAdLoad.value)
+                    BannerAdWidget(bannerAd: bannerAd).paddingOnly(bottom: 15),
+                  ListView.builder(
+                    itemCount: vm.coinlist.length + 1,
+                    shrinkWrap: true,
+                    primary: false,
+                    itemBuilder: (context, index) {
+                      if (index == 0) {
+                        return listHeader.paddingOnly(
+                            left: 15, top: 10, bottom: 10);
+                      } else {
+                        final ticker = vm.coinlist[index - 1];
+                        return listTileView(ticker, context);
+                      }
+                    },
+                  ),
+                ],
+              ),
             ),
-          ),
-        );
-      }
-    });
+          );
+        }
+      }),
+    );
   }
 
   RichText get listHeader => RichText(
@@ -93,13 +95,15 @@ class _CoinListViewState extends State<CoinListView> {
           style: TextStyle(
               fontSize: 20.0,
               color: context.appColors.textColor,
-              fontWeight: FontWeight.bold),
+              fontWeight: FontWeight.bold, 
+              fontFamily: 'sans'),
           children: const <TextSpan>[
             TextSpan(
               text: '   Perpetual',
               style: TextStyle(
                 fontSize: 16.0,
                 color: Colors.grey,
+                fontFamily: 'sans'
               ),
             ),
           ],
@@ -117,13 +121,15 @@ class _CoinListViewState extends State<CoinListView> {
           style: TextStyle(
               fontSize: 16.0,
               color: context.appColors.textColor,
-              fontWeight: FontWeight.bold),
+              fontWeight: FontWeight.bold,
+              fontFamily: 'sans'),
           children: const <TextSpan>[
             TextSpan(
               text: ' / USDT',
               style: TextStyle(
                 fontSize: 12.0,
                 color: Colors.grey,
+                fontFamily: 'sans'
               ),
             ),
           ],
@@ -133,6 +139,7 @@ class _CoinListViewState extends State<CoinListView> {
           style: const TextStyle(
             fontSize: 12.0,
             color: Colors.grey,
+            fontFamily: 'sans'
           )),
       trailing: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -144,11 +151,12 @@ class _CoinListViewState extends State<CoinListView> {
               color: color,
               fontSize: 15.0,
               fontWeight: FontWeight.bold,
+              fontFamily: 'sans'
             ),
           ),
           Text(
             ticker.price,
-            style: const TextStyle(fontSize: 12.0, color: Colors.grey),
+            style: const TextStyle(fontSize: 12.0, color: Colors.grey, fontFamily: 'sans'),
           ),
         ],
       ),
