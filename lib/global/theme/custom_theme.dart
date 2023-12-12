@@ -31,6 +31,7 @@ String fontFamily = 'sans';
 
 TextTheme textTheme = TextTheme(
   titleLarge: TextStyle(fontWeight: FontWeight.bold, fontSize: 20, fontFamily: fontFamily),
+  titleMedium: TextStyle(fontWeight: FontWeight.bold, fontSize: 18, fontFamily: fontFamily),
 );
 
 MaterialColor primarySwatchColor = Colors.lightBlue;
@@ -53,6 +54,7 @@ ThemeData lightTheme = ThemeData(
 
 ThemeData darkTheme = ThemeData(
   useMaterial3: true,
+  textTheme: textTheme,
   fontFamily: 'sans',
   bottomNavigationBarTheme: const BottomNavigationBarThemeData(
     showSelectedLabels: false,

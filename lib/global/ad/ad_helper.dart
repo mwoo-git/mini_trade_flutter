@@ -31,12 +31,12 @@ class AdHelper {
       listener: BannerAdListener(
         onAdLoaded: (Ad ad) {
           type == AdType.coinlist
-              ? CoinListView.onAdLoad.value = true
+              ? BinanceCoinListView.onAdLoad.value = true
               : TradeListView.onAdLoad.value = true;
         },
         onAdFailedToLoad: (Ad ad, LoadAdError error) {
           type == AdType.coinlist
-              ? CoinListView.onAdLoad.value = false
+              ? BinanceCoinListView.onAdLoad.value = false
               : TradeListView.onAdLoad.value = false;
           debugPrint('DEBUG: 배너 광고 로드 실패. $error');
         },

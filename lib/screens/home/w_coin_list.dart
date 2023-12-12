@@ -11,20 +11,20 @@ import '../../global/constant/app_colors.dart';
 import '../../global/data/prefs.dart';
 import '../trade/w_trade_list.dart';
 
-class CoinListView extends StatefulWidget {
-  const CoinListView({super.key});
+class BinanceCoinListView extends StatefulWidget {
+  const BinanceCoinListView({super.key});
 
   static Rx<bool> onAdLoad = false.obs;
 
   @override
-  State<CoinListView> createState() => _CoinListViewState();
+  State<BinanceCoinListView> createState() => _BinanceCoinListViewState();
 
   static listTileTabed(String market) {
     TradeListView.updateView(market);
   }
 }
 
-class _CoinListViewState extends State<CoinListView> {
+class _BinanceCoinListViewState extends State<BinanceCoinListView> {
   late BannerAd bannerAd;
 
   @override
@@ -61,26 +61,43 @@ class _CoinListViewState extends State<CoinListView> {
               HapticFeedback.lightImpact();
             },
             child: SingleChildScrollView(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  if (CoinListView.onAdLoad.value)
-                    BannerAdWidget(bannerAd: bannerAd).paddingOnly(bottom: 15),
-                  ListView.builder(
-                    itemCount: vm.coinlist.length + 1,
-                    shrinkWrap: true,
-                    primary: false,
-                    itemBuilder: (context, index) {
-                      if (index == 0) {
-                        return listHeader.paddingOnly(
-                            left: 15, top: 10, bottom: 10);
-                      } else {
-                        final ticker = vm.coinlist[index - 1];
-                        return listTileView(ticker, context);
-                      }
-                    },
+              child: DefaultTabController(
+                length: 2,
+                child: SizedBox(
+                  height: MediaQuery.of(context).size.height,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      // if (BinanceCoinListView.onAdLoad.value)
+                      //   BannerAdWidget(bannerAd: bannerAd)
+                      //       .paddingOnly(bottom: 15),
+                      listHeader(context),
+                      Expanded(
+                          child: TabBarView(
+                        children: [
+                          ListView.builder(
+                            itemCount: vm.coinlist.length,
+                            shrinkWrap: true,
+                            primary: false,
+                            itemBuilder: (context, index) {
+                              final ticker = vm.coinlist[index];
+                              return listTileView(ticker, context);
+                            },
+                          ),
+                          ListView.builder(
+                            itemCount: vm.coinlist.length,
+                            shrinkWrap: true,
+                            primary: false,
+                            itemBuilder: (context, index) {
+                              final ticker = vm.coinlist[index];
+                              return listTileView(ticker, context);
+                            },
+                          )
+                        ],
+                      )),
+                    ],
                   ),
-                ],
+                ),
               ),
             ),
           );
@@ -89,32 +106,30 @@ class _CoinListViewState extends State<CoinListView> {
     );
   }
 
-  RichText get listHeader => RichText(
-        text: TextSpan(
-          text: '바이낸스 선물',
-          style: TextStyle(
-              fontSize: 20.0,
-              color: context.appColors.textColor,
-              fontWeight: FontWeight.bold, 
-              fontFamily: 'sans'),
-          children: const <TextSpan>[
-            TextSpan(
-              text: '   Perpetual',
-              style: TextStyle(
-                fontSize: 16.0,
-                color: Colors.grey,
-                fontFamily: 'sans'
-              ),
-            ),
-          ],
-        ),
+  TabBar listHeader(BuildContext context) => TabBar(
+        tabAlignment: TabAlignment.start,
+        labelStyle: Theme.of(context).textTheme.titleMedium,
+        unselectedLabelStyle: Theme.of(context)
+            .textTheme
+            .titleMedium
+            ?.copyWith(color: Colors.grey),
+        isScrollable: true,
+        indicatorColor: context.appColors.textColor,
+        indicatorWeight: 3,
+        indicatorSize: TabBarIndicatorSize.tab,
+        padding: const EdgeInsets.symmetric(horizontal: 5),
+        indicatorPadding: const EdgeInsets.symmetric(horizontal: 10),
+        tabs: const [
+          Tab(text: "원화"),
+          Tab(text: "관심"),
+        ],
       );
 
   ListTile listTileView(TickerViewModel ticker, BuildContext context) {
     Color color = AppColors.getTradeColor(ticker.ticker.changeRate);
 
     return ListTile(
-      onTap: () => CoinListView.listTileTabed(ticker.market),
+      onTap: () => BinanceCoinListView.listTileTabed(ticker.market),
       title: RichText(
         text: TextSpan(
           text: ticker.symbol,
@@ -127,20 +142,14 @@ class _CoinListViewState extends State<CoinListView> {
             TextSpan(
               text: ' / USDT',
               style: TextStyle(
-                fontSize: 12.0,
-                color: Colors.grey,
-                fontFamily: 'sans'
-              ),
+                  fontSize: 12.0, color: Colors.grey, fontFamily: 'sans'),
             ),
           ],
         ),
       ),
       subtitle: Text('Vol ${ticker.volume}',
           style: const TextStyle(
-            fontSize: 12.0,
-            color: Colors.grey,
-            fontFamily: 'sans'
-          )),
+              fontSize: 12.0, color: Colors.grey, fontFamily: 'sans')),
       trailing: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.end,
@@ -148,15 +157,15 @@ class _CoinListViewState extends State<CoinListView> {
           Text(
             ticker.changeRate,
             style: TextStyle(
-              color: color,
-              fontSize: 15.0,
-              fontWeight: FontWeight.bold,
-              fontFamily: 'sans'
-            ),
+                color: color,
+                fontSize: 15.0,
+                fontWeight: FontWeight.bold,
+                fontFamily: 'sans'),
           ),
           Text(
             ticker.price,
-            style: const TextStyle(fontSize: 12.0, color: Colors.grey, fontFamily: 'sans'),
+            style: const TextStyle(
+                fontSize: 12.0, color: Colors.grey, fontFamily: 'sans'),
           ),
         ],
       ),

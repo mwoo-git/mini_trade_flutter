@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mini_trade_flutter/global/api/binance_rest.dart';
+import 'package:mini_trade_flutter/global/dart/extension/snackbar_extension.dart';
 import 'package:mini_trade_flutter/screens/home/search_delegate.dart';
 import 'package:mini_trade_flutter/screens/home/vm_coin_list.dart';
 import 'package:mini_trade_flutter/screens/home/w_api_error.dart';
@@ -40,7 +41,7 @@ class _HomeViewState extends State<HomeView> {
     return SafeArea(
       child: Scaffold(
         appBar: appBar(context),
-        body: apiStatus == RestApiStatus.error ? const ApiErrorView() : const CoinListView(),
+        body: apiStatus == RestApiStatus.error ? const ApiErrorView() : const BinanceCoinListView(),
       ),
     );
   }
@@ -48,12 +49,25 @@ class _HomeViewState extends State<HomeView> {
   AppBar appBar(BuildContext context) {
     return AppBar(
       backgroundColor: Colors.transparent,
-      leading: sortPopupMenuButton,
-      title: Text(
-        '미니체결',
-        style: Theme.of(context).textTheme.titleLarge,
+      // leading: sortPopupMenuButton,
+      title: Row(
+        children: [
+          Tap(
+            onTap: () {  },
+            child: Text(
+              '업비트',
+              style: Theme.of(context).textTheme.titleLarge,
+            ),
+          ),
+          Tap(
+            onTap: () {  },
+            child: Text(
+              '바이낸스',
+              style: Theme.of(context).textTheme.titleLarge?.copyWith(color: Colors.grey),
+            ),
+          ).paddingOnly(left: 12)
+        ],
       ),
-      centerTitle: true,
       actions: [
         showSearchButton(context),
       ],
